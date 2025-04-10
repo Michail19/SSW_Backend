@@ -1,7 +1,7 @@
 package com.ms.ssw.backend.service;
 
-import com.ms.ssw.backend.dto.ProjectDTO;
-import com.ms.ssw.backend.dto.EmployeeDTO;
+import com.ms.ssw.backend.model.ProjectDTO;
+import com.ms.ssw.backend.model.EmployeeDTO;
 import com.ms.ssw.backend.model.EmployeeLess;
 import com.ms.ssw.backend.model.Project;
 import com.ms.ssw.backend.repository.ProjectRepository;

@@ -1,6 +1,6 @@
 package com.ms.ssw.backend.controller;
 
-import com.ms.ssw.backend.dto.ProjectDTO;
+import com.ms.ssw.backend.model.ProjectDTO;
 import com.ms.ssw.backend.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

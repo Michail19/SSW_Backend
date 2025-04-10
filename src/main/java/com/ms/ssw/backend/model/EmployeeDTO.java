@@ -1,4 +1,4 @@
-package com.ms.ssw.backend.dto;
+package com.ms.ssw.backend.model;
 
 public class EmployeeDTO {
     private int id;

@@ -1,4 +1,4 @@
-package com.ms.ssw.backend.dto;
+package com.ms.ssw.backend.model;
 
 import java.util.List;
 
