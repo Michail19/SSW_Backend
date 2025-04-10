@@ -2,6 +2,9 @@ package com.ms.ssw.backend.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 public class EmployeeLess {
 
@@ -11,9 +14,8 @@ public class EmployeeLess {
 
     private String fio;
 
-    @ManyToOne
-    @JoinColumn(name = "project_id")
-    private Project project;
+    @ManyToMany(mappedBy = "employees")
+    private List<Project> projects = new ArrayList<>();
 
     // Конструкторы, геттеры и сеттеры
 
@@ -39,5 +41,9 @@ public class EmployeeLess {
 
     public void setFio(String fio) {
         this.fio = fio;
+    }
+
+    public List<Project> getProjects() {
+        return projects;
     }
 }

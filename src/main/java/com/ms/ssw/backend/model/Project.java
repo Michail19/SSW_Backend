@@ -1,6 +1,8 @@
 package com.ms.ssw.backend.model;
 
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -12,9 +14,13 @@ public class Project {
 
     private String name;
 
-    @OneToMany
-    @JoinColumn(name = "project_id")
-    private List<EmployeeLess> employees;
+    @ManyToMany
+    @JoinTable(
+            name = "project_employee", // Название таблицы связи
+            joinColumns = @JoinColumn(name = "project_id"), // Колонка для связи с проектом
+            inverseJoinColumns = @JoinColumn(name = "employee_id") // Колонка для связи с сотрудником
+    )
+    private List<EmployeeLess> employees = new ArrayList<>();
 
     // Конструкторы, геттеры и сеттеры
 
