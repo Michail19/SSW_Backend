@@ -1,12 +1,28 @@
 package com.ms.ssw.backend.model;
 
+import jakarta.persistence.*;
+
+@Entity
 public class EmployeeLess {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String fio;
 
-    public EmployeeLess(int id, String fio) {
-        this.id = id;
+    @ManyToOne
+    @JoinColumn(name = "project_id")
+    private Project project;
+
+    // Конструкторы, геттеры и сеттеры
+
+    public EmployeeLess(String fio) {
         this.fio = fio;
+    }
+
+    public EmployeeLess() {
+
     }
 
     public int getId() {

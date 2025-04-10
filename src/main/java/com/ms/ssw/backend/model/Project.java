@@ -1,14 +1,38 @@
 package com.ms.ssw.backend.model;
 
-import java.util.ArrayList;
+import jakarta.persistence.*;
+import java.util.List;
 
+@Entity
 public class Project {
-    private String name;
-    private ArrayList<EmployeeLess> employees;
 
-    public Project(String name, ArrayList<EmployeeLess> employees) {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    @OneToMany
+    @JoinColumn(name = "project_id")
+    private List<EmployeeLess> employees;
+
+    // Конструкторы, геттеры и сеттеры
+
+    public Project(String name, List<EmployeeLess> employees) {
         this.name = name;
         this.employees = employees;
+    }
+
+    public Project() {
+
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -19,11 +43,11 @@ public class Project {
         this.name = name;
     }
 
-    public ArrayList<EmployeeLess> getEmployees() {
+    public List<EmployeeLess> getEmployees() {
         return employees;
     }
 
-    public void setEmployees(ArrayList<EmployeeLess> employees) {
+    public void setEmployees(List<EmployeeLess> employees) {
         this.employees = employees;
     }
 }
