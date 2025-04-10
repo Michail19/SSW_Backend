@@ -1,4 +1,4 @@
-package com.ms.SSW_Backend;
+package com.ms.ssw.backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
