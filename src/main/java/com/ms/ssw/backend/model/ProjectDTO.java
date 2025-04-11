@@ -4,10 +4,10 @@ import java.util.List;
 
 public class ProjectDTO {
     private String name;
-    private List<EmployeeDTO> employees;  // Изменяем на список EmployeeDTO
+    private List<EmployeeLessDTO> employees;  // Изменяем на список EmployeeDTO
 
     // Конструктор
-    public ProjectDTO(String name, List<EmployeeDTO> employees) {
+    public ProjectDTO(String name, List<EmployeeLessDTO> employees) {
         this.name = name;
         this.employees = employees;
     }
@@ -21,11 +21,11 @@ public class ProjectDTO {
         this.name = name;
     }
 
-    public List<EmployeeDTO> getEmployees() {
+    public List<EmployeeLessDTO> getEmployees() {
         return employees;
     }
 
-    public void setEmployees(List<EmployeeDTO> employees) {
+    public void setEmployees(List<EmployeeLessDTO> employees) {
         this.employees = employees;
     }
 }

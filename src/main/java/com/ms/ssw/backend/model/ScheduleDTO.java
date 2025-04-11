@@ -1,10 +1,10 @@
 package com.ms.ssw.backend.model;
 
-public class Schedule {
+public class ScheduleDTO {
     private String start;
     private String end;
 
-    public Schedule(String start, String end) {
+    public ScheduleDTO(String start, String end) {
         this.start = start;
         this.end = end;
     }

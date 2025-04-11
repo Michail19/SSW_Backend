@@ -1,10 +1,10 @@
 package com.ms.ssw.backend.model;
 
-public class Role {
+public class RoleDTO {
     private Long id;
     private String role;
 
-    public Role(Long id, String role) {
+    public RoleDTO(Long id, String role) {
         this.id = id;
         this.role = role;
     }

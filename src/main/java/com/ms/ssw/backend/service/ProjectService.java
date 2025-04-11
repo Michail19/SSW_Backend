@@ -1,7 +1,7 @@
 package com.ms.ssw.backend.service;
 
 import com.ms.ssw.backend.model.ProjectDTO;
-import com.ms.ssw.backend.model.EmployeeDTO;
+import com.ms.ssw.backend.model.EmployeeLessDTO;
 import com.ms.ssw.backend.model.EmployeeLess;
 import com.ms.ssw.backend.model.Project;
 import com.ms.ssw.backend.repository.ProjectRepository;
@@ -22,9 +22,9 @@ public class ProjectService {
         Project project = projectRepository.findById(projectId).orElseThrow(() -> new RuntimeException("Проект не найден"));
 
         // Преобразуем сущность Project в ProjectDTO
-        List<EmployeeDTO> employeeDTOs = new ArrayList<>();
+        List<EmployeeLessDTO> employeeDTOs = new ArrayList<>();
         for (EmployeeLess employee : project.getEmployees()) {
-            employeeDTOs.add(new EmployeeDTO(employee.getId(), employee.getFio()));
+            employeeDTOs.add(new EmployeeLessDTO(employee.getId(), employee.getFio()));
         }
 
         return new ProjectDTO(project.getName(), employeeDTOs);
