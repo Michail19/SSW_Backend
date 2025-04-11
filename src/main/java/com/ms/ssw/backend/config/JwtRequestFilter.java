@@ -1,6 +1,5 @@
 package com.ms.ssw.backend.config;
 
-import com.ms.ssw.backend.service.MyUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,8 +13,8 @@ import java.io.IOException;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private MyUserDetailsService myUserDetailsService;
+//    @Autowired
+//    private MyUserDetailsService myUserDetailsService;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
