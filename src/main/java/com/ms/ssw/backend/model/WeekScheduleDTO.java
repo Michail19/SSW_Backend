@@ -1,19 +1,27 @@
 package com.ms.ssw.backend.model;
 
-import java.util.Map;
 
 public class WeekScheduleDTO {
-    private Map<String, ScheduleDTO> days;
+    private Long id;
 
-    public WeekScheduleDTO(Map<String, ScheduleDTO> days) {
-        this.days = days;
-    }
+    private String mondayStart;
+    private String mondayEnd;
 
-    public Map<String, ScheduleDTO> getDays() {
-        return days;
-    }
+    private String tuesdayStart;
+    private String tuesdayEnd;
 
-    public void setDays(Map<String, ScheduleDTO> days) {
-        this.days = days;
-    }
+    private String wednesdayStart;
+    private String wednesdayEnd;
+
+    private String thursdayStart;
+    private String thursdayEnd;
+
+    private String fridayStart;
+    private String fridayEnd;
+
+    private String saturdayStart;
+    private String saturdayEnd;
+
+    private String sundayStart;
+    private String sundayEnd;
 }

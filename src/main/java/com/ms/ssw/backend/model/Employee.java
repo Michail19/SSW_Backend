@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 public class Employee {
+
     @Id
     private Long id;
 
@@ -11,7 +12,8 @@ public class Employee {
     @JoinColumn(name = "employee_id")
     private EmployeeLess employeeData;
 
-
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "week_schedule_id")
     private WeekSchedule weekSchedule;
 
     public Employee(EmployeeLess employeeData, WeekSchedule weekSchedule) {
