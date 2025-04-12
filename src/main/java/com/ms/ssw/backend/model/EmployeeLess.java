@@ -15,7 +15,7 @@ public class EmployeeLess {
     private String fio;
 
     @ManyToMany(mappedBy = "employees")
-    private List<Project> projects = new ArrayList<>();
+    private List<ProjectLess> projects = new ArrayList<>();
 
     // Конструкторы, геттеры и сеттеры
 
@@ -43,7 +43,7 @@ public class EmployeeLess {
         this.fio = fio;
     }
 
-    public List<Project> getProjects() {
+    public List<ProjectLess> getProjects() {
         return projects;
     }
 }

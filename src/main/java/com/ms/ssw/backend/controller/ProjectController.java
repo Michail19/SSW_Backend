@@ -1,6 +1,6 @@
 package com.ms.ssw.backend.controller;
 
-import com.ms.ssw.backend.model.ProjectDTO;
+import com.ms.ssw.backend.model.ProjectLessDTO;
 import com.ms.ssw.backend.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +16,7 @@ public class ProjectController {
     private ProjectService projectService;
 
     @GetMapping("/{projectId}")
-    public ProjectDTO getProjectById(@PathVariable("projectId") Long projectId) {
+    public ProjectLessDTO getProjectById(@PathVariable("projectId") Long projectId) {
         return projectService.getProjectById(projectId);  // Отправляем DTO, полученный из сервиса
     }
 }

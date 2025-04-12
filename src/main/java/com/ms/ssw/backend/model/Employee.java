@@ -14,16 +14,19 @@ public class Employee {
     private String fio;
 
     @OneToMany
-    @JoinTable (name = "projects")
-    private List<String> projects = new ArrayList<>();
+    @JoinTable (name = "projects_table")
+    private List<Project> projects;
 
     private WeekScheduleDTO weekSchedule;
 
-    public Employee(long id, String fio, ArrayList<String> projects, WeekScheduleDTO weekSchedule) {
-        this.id = id;
+    public Employee(String fio, List<Project> projects, WeekScheduleDTO weekSchedule) {
         this.fio = fio;
         this.projects = projects;
         this.weekSchedule = weekSchedule;
+    }
+
+    public Employee() {
+
     }
 
     public long getId() {
@@ -42,11 +45,11 @@ public class Employee {
         this.fio = fio;
     }
 
-    public ArrayList<String> getProjects() {
+    public List<Project> getProjects() {
         return projects;
     }
 
-    public void setProjects(ArrayList<String> projects) {
+    public void setProjects(List<Project> projects) {
         this.projects = projects;
     }
 
