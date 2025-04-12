@@ -12,7 +12,7 @@ public class Employee {
     @JoinColumn(name = "employee_id")
     private EmployeeLess employeeData;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne //(cascade = CascadeType.ALL)
     @JoinColumn(name = "week_schedule_id")
     private WeekSchedule weekSchedule;
 

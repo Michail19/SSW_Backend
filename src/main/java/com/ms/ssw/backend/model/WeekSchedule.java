@@ -1,9 +1,8 @@
 package com.ms.ssw.backend.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.time.LocalDate;
 
 @Entity
 public class WeekSchedule {
@@ -12,26 +11,46 @@ public class WeekSchedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String mondayStart;
-    private String mondayEnd;
+    @OneToOne(cascade = CascadeType.ALL)
+    private DaySchedule monday;
 
-    private String tuesdayStart;
-    private String tuesdayEnd;
+    @OneToOne(cascade = CascadeType.ALL)
+    private DaySchedule tuesday;
 
-    private String wednesdayStart;
-    private String wednesdayEnd;
+    @OneToOne(cascade = CascadeType.ALL)
+    private DaySchedule wednesday;
 
-    private String thursdayStart;
-    private String thursdayEnd;
+    @OneToOne(cascade = CascadeType.ALL)
+    private DaySchedule thursday;
 
-    private String fridayStart;
-    private String fridayEnd;
+    @OneToOne(cascade = CascadeType.ALL)
+    private DaySchedule friday;
 
-    private String saturdayStart;
-    private String saturdayEnd;
+    @OneToOne(cascade = CascadeType.ALL)
+    private DaySchedule saturday;
 
-    private String sundayStart;
-    private String sundayEnd;
+    @OneToOne(cascade = CascadeType.ALL)
+    private DaySchedule sunday;
+
+    private LocalDate startOfWeek; // для понимания, к какой неделе относится
+
+    public WeekSchedule(DaySchedule monday,
+                        DaySchedule tuesday,
+                        DaySchedule wednesday,
+                        DaySchedule thursday,
+                        DaySchedule friday,
+                        DaySchedule saturday,
+                        DaySchedule sunday,
+                        LocalDate startOfWeek) {
+        this.monday = monday;
+        this.tuesday = tuesday;
+        this.wednesday = wednesday;
+        this.thursday = thursday;
+        this.friday = friday;
+        this.saturday = saturday;
+        this.sunday = sunday;
+        this.startOfWeek = startOfWeek;
+    }
 
     public WeekSchedule() {
 
@@ -45,115 +64,67 @@ public class WeekSchedule {
         this.id = id;
     }
 
-    public String getMondayStart() {
-        return mondayStart;
+    public DaySchedule getMonday() {
+        return monday;
     }
 
-    public void setMondayStart(String mondayStart) {
-        this.mondayStart = mondayStart;
+    public void setMonday(DaySchedule monday) {
+        this.monday = monday;
     }
 
-    public String getMondayEnd() {
-        return mondayEnd;
+    public DaySchedule getTuesday() {
+        return tuesday;
     }
 
-    public void setMondayEnd(String mondayEnd) {
-        this.mondayEnd = mondayEnd;
+    public void setTuesday(DaySchedule tuesday) {
+        this.tuesday = tuesday;
     }
 
-    public String getTuesdayStart() {
-        return tuesdayStart;
+    public DaySchedule getWednesday() {
+        return wednesday;
     }
 
-    public void setTuesdayStart(String tuesdayStart) {
-        this.tuesdayStart = tuesdayStart;
+    public void setWednesday(DaySchedule wednesday) {
+        this.wednesday = wednesday;
     }
 
-    public String getTuesdayEnd() {
-        return tuesdayEnd;
+    public DaySchedule getThursday() {
+        return thursday;
     }
 
-    public void setTuesdayEnd(String tuesdayEnd) {
-        this.tuesdayEnd = tuesdayEnd;
+    public void setThursday(DaySchedule thursday) {
+        this.thursday = thursday;
     }
 
-    public String getWednesdayStart() {
-        return wednesdayStart;
+    public DaySchedule getFriday() {
+        return friday;
     }
 
-    public void setWednesdayStart(String wednesdayStart) {
-        this.wednesdayStart = wednesdayStart;
+    public void setFriday(DaySchedule friday) {
+        this.friday = friday;
     }
 
-    public String getWednesdayEnd() {
-        return wednesdayEnd;
+    public DaySchedule getSaturday() {
+        return saturday;
     }
 
-    public void setWednesdayEnd(String wednesdayEnd) {
-        this.wednesdayEnd = wednesdayEnd;
+    public void setSaturday(DaySchedule saturday) {
+        this.saturday = saturday;
     }
 
-    public String getThursdayStart() {
-        return thursdayStart;
+    public DaySchedule getSunday() {
+        return sunday;
     }
 
-    public void setThursdayStart(String thursdayStart) {
-        this.thursdayStart = thursdayStart;
+    public void setSunday(DaySchedule sunday) {
+        this.sunday = sunday;
     }
 
-    public String getThursdayEnd() {
-        return thursdayEnd;
+    public LocalDate getStartOfWeek() {
+        return startOfWeek;
     }
 
-    public void setThursdayEnd(String thursdayEnd) {
-        this.thursdayEnd = thursdayEnd;
-    }
-
-    public String getFridayStart() {
-        return fridayStart;
-    }
-
-    public void setFridayStart(String fridayStart) {
-        this.fridayStart = fridayStart;
-    }
-
-    public String getFridayEnd() {
-        return fridayEnd;
-    }
-
-    public void setFridayEnd(String fridayEnd) {
-        this.fridayEnd = fridayEnd;
-    }
-
-    public String getSaturdayStart() {
-        return saturdayStart;
-    }
-
-    public void setSaturdayStart(String saturdayStart) {
-        this.saturdayStart = saturdayStart;
-    }
-
-    public String getSaturdayEnd() {
-        return saturdayEnd;
-    }
-
-    public void setSaturdayEnd(String saturdayEnd) {
-        this.saturdayEnd = saturdayEnd;
-    }
-
-    public String getSundayStart() {
-        return sundayStart;
-    }
-
-    public void setSundayStart(String sundayStart) {
-        this.sundayStart = sundayStart;
-    }
-
-    public String getSundayEnd() {
-        return sundayEnd;
-    }
-
-    public void setSundayEnd(String sundayEnd) {
-        this.sundayEnd = sundayEnd;
+    public void setStartOfWeek(LocalDate startOfWeek) {
+        this.startOfWeek = startOfWeek;
     }
 }

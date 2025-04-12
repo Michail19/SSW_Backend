@@ -4,24 +4,77 @@ package com.ms.ssw.backend.model;
 public class WeekScheduleDTO {
     private Long id;
 
-    private String mondayStart;
-    private String mondayEnd;
+    private DayScheduleDTO monday;
+    private DayScheduleDTO tuesday;
+    private DayScheduleDTO wednesday;
+    private DayScheduleDTO thursday;
+    private DayScheduleDTO friday;
+    private DayScheduleDTO saturday;
+    private DayScheduleDTO sunday;
 
-    private String tuesdayStart;
-    private String tuesdayEnd;
+    public WeekScheduleDTO() {}
 
-    private String wednesdayStart;
-    private String wednesdayEnd;
+    public Long getId() {
+        return id;
+    }
 
-    private String thursdayStart;
-    private String thursdayEnd;
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    private String fridayStart;
-    private String fridayEnd;
+    public DayScheduleDTO getMonday() {
+        return monday;
+    }
 
-    private String saturdayStart;
-    private String saturdayEnd;
+    public void setMonday(DayScheduleDTO monday) {
+        this.monday = monday;
+    }
 
-    private String sundayStart;
-    private String sundayEnd;
+    public DayScheduleDTO getTuesday() {
+        return tuesday;
+    }
+
+    public void setTuesday(DayScheduleDTO tuesday) {
+        this.tuesday = tuesday;
+    }
+
+    public DayScheduleDTO getWednesday() {
+        return wednesday;
+    }
+
+    public void setWednesday(DayScheduleDTO wednesday) {
+        this.wednesday = wednesday;
+    }
+
+    public DayScheduleDTO getThursday() {
+        return thursday;
+    }
+
+    public void setThursday(DayScheduleDTO thursday) {
+        this.thursday = thursday;
+    }
+
+    public DayScheduleDTO getFriday() {
+        return friday;
+    }
+
+    public void setFriday(DayScheduleDTO friday) {
+        this.friday = friday;
+    }
+
+    public DayScheduleDTO getSaturday() {
+        return saturday;
+    }
+
+    public void setSaturday(DayScheduleDTO saturday) {
+        this.saturday = saturday;
+    }
+
+    public DayScheduleDTO getSunday() {
+        return sunday;
+    }
+
+    public void setSunday(DayScheduleDTO sunday) {
+        this.sunday = sunday;
+    }
 }
