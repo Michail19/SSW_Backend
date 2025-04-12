@@ -14,8 +14,12 @@ public class EmployeeLess {
 
     private String fio;
 
+    @OneToOne
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
+
     @ManyToMany(mappedBy = "employees")
-    private List<ProjectLess> projects = new ArrayList<>();
+    private List<Project> projects = new ArrayList<>();
 
     // Конструкторы, геттеры и сеттеры
 
@@ -43,7 +47,7 @@ public class EmployeeLess {
         this.fio = fio;
     }
 
-    public List<ProjectLess> getProjects() {
+    public List<Project> getProjects() {
         return projects;
     }
 }

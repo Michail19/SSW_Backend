@@ -1,42 +1,30 @@
 package com.ms.ssw.backend.model;
 
-import java.util.ArrayList;
-
 public class EmployeeDTO {
-    private int id;
-    private String fio;
-    private ArrayList<String> projects;
+    private long id;
+    private EmployeeLessDTO employeeLess;
     private WeekScheduleDTO weekSchedule;
 
-    public EmployeeDTO(int id, String fio, ArrayList<String> projects, WeekScheduleDTO weekSchedule) {
+    public EmployeeDTO(long id, EmployeeLessDTO employeeLess, WeekScheduleDTO weekSchedule) {
         this.id = id;
-        this.fio = fio;
-        this.projects = projects;
+        this.employeeLess = employeeLess;
         this.weekSchedule = weekSchedule;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public String getFio() {
-        return fio;
+    public EmployeeLessDTO getEmployeeLess() {
+        return employeeLess;
     }
 
-    public void setFio(String fio) {
-        this.fio = fio;
-    }
-
-    public ArrayList<String> getProjects() {
-        return projects;
-    }
-
-    public void setProjects(ArrayList<String> projects) {
-        this.projects = projects;
+    public void setEmployeeLess(EmployeeLessDTO employeeLess) {
+        this.employeeLess = employeeLess;
     }
 
     public WeekScheduleDTO getWeekSchedule() {
