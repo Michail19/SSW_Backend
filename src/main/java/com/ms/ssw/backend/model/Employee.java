@@ -33,11 +33,11 @@ public class Employee {
         this.weekSchedule = weekSchedule;
     }
 
-    public EmployeeLess getData() {
+    public EmployeeLess getEmployeeData() {
         return employeeData;
     }
 
-    public void setData(EmployeeLess employeeData) {
+    public void setEmployeeData(EmployeeLess employeeData) {
         this.employeeData = employeeData;
     }
 

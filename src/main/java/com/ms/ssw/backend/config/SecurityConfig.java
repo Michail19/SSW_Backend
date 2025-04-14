@@ -21,10 +21,6 @@ public class SecurityConfig {
 
     private final JwtRequestFilter jwtFilter;
 
-    public SecurityConfig(JwtRequestFilter jwtFilter) {
-        this.jwtFilter = jwtFilter;
-    }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -49,5 +45,3 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 }
-
-

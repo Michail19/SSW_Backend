@@ -1,21 +1,21 @@
 package com.ms.ssw.backend.model;
 
 public class EmployeeLessDTO {
-    private int id;
+    private long id;
     private String fio;
 
     // Конструктор
-    public EmployeeLessDTO(int id, String fio) {
+    public EmployeeLessDTO(long id, String fio) {
         this.id = id;
         this.fio = fio;
     }
 
     // Геттеры и сеттеры
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

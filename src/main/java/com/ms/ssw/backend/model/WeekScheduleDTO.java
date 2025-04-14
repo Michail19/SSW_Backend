@@ -14,6 +14,22 @@ public class WeekScheduleDTO {
 
     public WeekScheduleDTO() {}
 
+    public WeekScheduleDTO(DayScheduleDTO monday,
+                           DayScheduleDTO tuesday,
+                           DayScheduleDTO wednesday,
+                           DayScheduleDTO thursday,
+                           DayScheduleDTO friday,
+                           DayScheduleDTO saturday,
+                           DayScheduleDTO sunday) {
+        this.monday = monday;
+        this.tuesday = tuesday;
+        this.wednesday = wednesday;
+        this.thursday = thursday;
+        this.friday = friday;
+        this.saturday = saturday;
+        this.sunday = sunday;
+    }
+
     public Long getId() {
         return id;
     }
