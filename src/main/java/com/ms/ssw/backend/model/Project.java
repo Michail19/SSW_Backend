@@ -16,7 +16,7 @@ public class Project {
 
     @ManyToMany
     @JoinTable(
-            name = "project_employee", // Название таблицы связи
+            name = "employee_projects", // Название таблицы связи
             joinColumns = @JoinColumn(name = "project_id"), // Колонка для связи с проектом
             inverseJoinColumns = @JoinColumn(name = "employee_id") // Колонка для связи с сотрудником
     )
