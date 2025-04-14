@@ -109,14 +109,24 @@ INSERT INTO employee_projects (employee_id, project_id) VALUES
 
 -- Вставляем расписания для сотрудников
 -- Сотрудник 1
-INSERT INTO week_schedule (week_schedule_id, employee_id, day_of_week, start_time, end_time) VALUES
-                                                                                   (1, 1, 'monday', '08:00', '13:40'),
-                                                                                   (1, 1, 'tuesday', '08:00', '15:30'),
-                                                                                   (1, 1, 'wednesday', '15:20', '20:00'),
-                                                                                   (1, 1, 'thursday', '15:20', '20:00'),
-                                                                                   (1, 1, 'friday', '08:00', '15:30'),
-                                                                                   (1, 1, 'saturday', NULL, NULL),
-                                                                                   (1, 1, 'sunday', NULL, NULL);
+INSERT INTO week_schedule (
+    monday_start, monday_end,
+    tuesday_start, tuesday_end,
+    wednesday_start, wednesday_end,
+    thursday_start, thursday_end,
+    friday_start, friday_end,
+    saturday_start, saturday_end,
+    sunday_start, sunday_end
+) VALUES (
+             '08:00', '13:40',
+             '08:00', '15:30',
+             '15:20', '20:00',
+             '15:20', '20:00',
+             '08:00', '15:30',
+             NULL, NULL,
+             NULL, NULL
+         ) RETURNING id;
+
 
 -- Сотрудник 2
 INSERT INTO week_schedule (week_schedule_id, employee_id, day_of_week, start_time, end_time) VALUES

@@ -74,12 +74,20 @@ CREATE TABLE IF NOT EXISTS employee_projects (
 );
 
 -- Создаем таблицу для расписания сотрудников с правильными ссылками
-CREATE TABLE IF NOT EXISTS week_schedule (
-                                             id SERIAL PRIMARY KEY,
-                                             day_of_week VARCHAR(10) NOT NULL CHECK (
-                                                     day_of_week IN ('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday')
-                                                 ),
-                                             start_time TIME,
-                                             end_time TIME
+CREATE TABLE IF NOT EXISTS day_schedule (
+                                            id SERIAL PRIMARY KEY,
+                                            start TIME,
+                                            end TIME
 );
 
+CREATE TABLE IF NOT EXISTS week_schedule (
+                                             id SERIAL PRIMARY KEY,
+                                             monday_id INT REFERENCES day_schedule(id),
+                                             tuesday_id INT REFERENCES day_schedule(id),
+                                             wednesday_id INT REFERENCES day_schedule(id),
+                                             thursday_id INT REFERENCES day_schedule(id),
+                                             friday_id INT REFERENCES day_schedule(id),
+                                             saturday_id INT REFERENCES day_schedule(id),
+                                             sunday_id INT REFERENCES day_schedule(id),
+                                             start_of_week DATE
+);
