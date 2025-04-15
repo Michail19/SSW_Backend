@@ -1,48 +1,28 @@
--- -- Создаем таблицу для хранения информации о текущей неделе
--- CREATE TABLE IF NOT EXISTS current_week (
---                                             id SERIAL PRIMARY KEY,
---                                             week_range VARCHAR(50) NOT NULL
---     );
---
--- -- Создаем таблицу для сотрудников
--- CREATE TABLE IF NOT EXISTS employees (
---                                          id SERIAL PRIMARY KEY,
---                                          fio VARCHAR(100) NOT NULL
---     );
---
--- -- Создаем таблицу для проектов
--- CREATE TABLE IF NOT EXISTS projects (
---                                         id SERIAL PRIMARY KEY,
---                                         project_name VARCHAR(100) NOT NULL UNIQUE
---     );
---
--- -- Создаем связующую таблицу для связи сотрудников и проектов (многие-ко-многим)
--- CREATE TABLE IF NOT EXISTS employee_projects (
---                                                  employee_id INT NOT NULL,
---                                                  project_id INT NOT NULL,
---                                                  PRIMARY KEY (employee_id, project_id),
---     FOREIGN KEY (employee_id) REFERENCES employees(id) ON DELETE CASCADE,
---     FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE
---     );
---
--- -- Создаем таблицу для расписания сотрудников
--- CREATE TABLE IF NOT EXISTS employee_schedule (
---                                                  week_schedule_id SERIAL PRIMARY KEY,  -- Изменяем id на week_schedule_id
---                                                  employee_id INT NOT NULL,
---                                                  day_of_week VARCHAR(10) NOT NULL,
---     start_time VARCHAR(5),
---     end_time VARCHAR(5),
---     FOREIGN KEY (employee_id) REFERENCES employees(id) ON DELETE CASCADE,
---     UNIQUE (employee_id, day_of_week)
---     );
---
---
---
-
-DROP TABLE IF EXISTS project_employee CASCADE;
+DROP TABLE IF EXISTS current_week CASCADE;
 DROP TABLE IF EXISTS employee_projects CASCADE;
 DROP TABLE IF EXISTS project CASCADE;
 DROP TABLE IF EXISTS employee CASCADE;
+DROP TABLE IF EXISTS day_schedule CASCADE;
+DROP TABLE IF EXISTS week_schedule CASCADE;
+
+-- Создаем таблицу для расписания сотрудников с правильными ссылками
+CREATE TABLE IF NOT EXISTS day_schedule (
+                                            id SERIAL PRIMARY KEY,
+                                            "start" TIME,
+                                            "end" TIME
+);
+
+CREATE TABLE IF NOT EXISTS week_schedule (
+                                             id SERIAL PRIMARY KEY,
+                                             monday_id INT REFERENCES day_schedule(id),
+                                             tuesday_id INT REFERENCES day_schedule(id),
+                                             wednesday_id INT REFERENCES day_schedule(id),
+                                             thursday_id INT REFERENCES day_schedule(id),
+                                             friday_id INT REFERENCES day_schedule(id),
+                                             saturday_id INT REFERENCES day_schedule(id),
+                                             sunday_id INT REFERENCES day_schedule(id),
+                                             start_of_week DATE
+);
 
 -- Создаем таблицу для хранения информации о текущей неделе
 CREATE TABLE IF NOT EXISTS current_week (
@@ -71,23 +51,4 @@ CREATE TABLE IF NOT EXISTS employee_projects (
                                                  PRIMARY KEY (employee_id, project_id),
                                                  FOREIGN KEY (employee_id) REFERENCES employee(id) ON DELETE CASCADE,
                                                  FOREIGN KEY (project_id) REFERENCES project(id) ON DELETE CASCADE
-);
-
--- Создаем таблицу для расписания сотрудников с правильными ссылками
-CREATE TABLE IF NOT EXISTS day_schedule (
-                                            id SERIAL PRIMARY KEY,
-                                            start TIME,
-                                            end TIME
-);
-
-CREATE TABLE IF NOT EXISTS week_schedule (
-                                             id SERIAL PRIMARY KEY,
-                                             monday_id INT REFERENCES day_schedule(id),
-                                             tuesday_id INT REFERENCES day_schedule(id),
-                                             wednesday_id INT REFERENCES day_schedule(id),
-                                             thursday_id INT REFERENCES day_schedule(id),
-                                             friday_id INT REFERENCES day_schedule(id),
-                                             saturday_id INT REFERENCES day_schedule(id),
-                                             sunday_id INT REFERENCES day_schedule(id),
-                                             start_of_week DATE
 );

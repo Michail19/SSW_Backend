@@ -3,6 +3,7 @@ TRUNCATE TABLE employee CASCADE;
 TRUNCATE TABLE project CASCADE;
 TRUNCATE TABLE employee_projects CASCADE;
 TRUNCATE TABLE week_schedule CASCADE;
+TRUNCATE TABLE current_week CASCADE;
 
 -- Вставляем данные о текущей неделе
 INSERT INTO current_week (week_range) VALUES ('14-20 april 2025');
@@ -109,131 +110,175 @@ INSERT INTO employee_projects (employee_id, project_id) VALUES
 
 -- Вставляем расписания для сотрудников
 -- Сотрудник 1
+
+-- Добавим расписания для каждого дня
+-- Понедельник: 08:00–13:40
+INSERT INTO day_schedule ("start", "end") VALUES ('08:00', '13:40') RETURNING id;
+-- Допустим, вернулся id = 1
+
+-- Вторник: 08:00–15:30
+INSERT INTO day_schedule ("start", "end") VALUES ('08:00', '15:30') RETURNING id;
+-- Вернулся id = 2
+
+-- Среда: 15:20–20:00
+INSERT INTO day_schedule ("start", "end") VALUES ('15:20', '20:00') RETURNING id;
+-- id = 3
+
+-- Четверг: 15:20–20:00
+INSERT INTO day_schedule ("start", "end") VALUES ('15:20', '20:00') RETURNING id;
+-- id = 4
+
+-- Пятница: 08:00–15:30
+INSERT INTO day_schedule ("start", "end") VALUES ('08:00', '15:30') RETURNING id;
+-- id = 5
+
+-- Суббота и воскресенье — выходные
+INSERT INTO day_schedule ("start", "end") VALUES (NULL, NULL) RETURNING id;
+-- id = 6 (суббота)
+
+INSERT INTO day_schedule ("start", "end") VALUES (NULL, NULL) RETURNING id;
+-- id = 7 (воскресенье)
+
+-- Теперь собираем неделю
 INSERT INTO week_schedule (
-    monday_start, monday_end,
-    tuesday_start, tuesday_end,
-    wednesday_start, wednesday_end,
-    thursday_start, thursday_end,
-    friday_start, friday_end,
-    saturday_start, saturday_end,
-    sunday_start, sunday_end
+    monday_id, tuesday_id, wednesday_id,
+    thursday_id, friday_id, saturday_id, sunday_id,
+    start_of_week
 ) VALUES (
-             '08:00', '13:40',
-             '08:00', '15:30',
-             '15:20', '20:00',
-             '15:20', '20:00',
-             '08:00', '15:30',
-             NULL, NULL,
-             NULL, NULL
+             1, 2, 3, 4, 5, 6, 7,
+             DATE '2024-04-15'  -- пример понедельника текущей недели
          ) RETURNING id;
 
 
 -- Сотрудник 2
-INSERT INTO week_schedule (week_schedule_id, employee_id, day_of_week, start_time, end_time) VALUES
-                                                                                   (1, 2, 'monday', '08:00', '17:00'),
-                                                                                   (1, 2, 'tuesday', '08:00', '17:00'),
-                                                                                   (1, 2, 'wednesday', '08:00', '17:00'),
-                                                                                   (1, 2, 'thursday', '08:00', '17:00'),
-                                                                                   (1, 2, 'friday', '08:00', '16:00'),
-                                                                                   (1, 2, 'saturday', '10:00', '14:00'),
-                                                                                   (1, 2, 'sunday', '10:00', '14:00');
+-- Понедельник-четверг: 08:00–17:00
+INSERT INTO day_schedule ("start", "end") VALUES ('08:00', '17:00') RETURNING id; -- id1 (пн)
+INSERT INTO day_schedule ("start", "end") VALUES ('08:00', '17:00') RETURNING id; -- id2 (вт)
+INSERT INTO day_schedule ("start", "end") VALUES ('08:00', '17:00') RETURNING id; -- id3 (ср)
+INSERT INTO day_schedule ("start", "end") VALUES ('08:00', '17:00') RETURNING id; -- id4 (чт)
+-- Пятница: 08:00–16:00
+INSERT INTO day_schedule ("start", "end") VALUES ('08:00', '16:00') RETURNING id; -- id5 (пт)
+-- Суббота-воскресенье: 10:00–14:00
+INSERT INTO day_schedule ("start", "end") VALUES ('10:00', '14:00') RETURNING id; -- id6 (сб)
+INSERT INTO day_schedule ("start", "end") VALUES ('10:00', '14:00') RETURNING id; -- id7 (вс)
+
+INSERT INTO week_schedule (
+    monday_id, tuesday_id, wednesday_id, thursday_id,
+    friday_id, saturday_id, sunday_id, start_of_week
+) VALUES (8, 9, 10, 11, 12, 13, 14, DATE '2024-04-15');
+
+-- Сотрудник 3-8 (одинаковое расписание)
+-- Понедельник-пятница: 09:00–18:00
+INSERT INTO day_schedule ("start", "end") VALUES ('09:00', '18:00') RETURNING id; -- id8 (пн)
+INSERT INTO day_schedule ("start", "end") VALUES ('09:00', '18:00') RETURNING id; -- id9 (вт)
+INSERT INTO day_schedule ("start", "end") VALUES ('09:00', '18:00') RETURNING id; -- id10 (ср)
+INSERT INTO day_schedule ("start", "end") VALUES ('09:00', '18:00') RETURNING id; -- id11 (чт)
+INSERT INTO day_schedule ("start", "end") VALUES ('09:00', '18:00') RETURNING id; -- id12 (пт)
+-- Суббота-воскресенье: 10:00–15:00
+INSERT INTO day_schedule ("start", "end") VALUES ('10:00', '15:00') RETURNING id; -- id13 (сб)
+INSERT INTO day_schedule ("start", "end") VALUES ('10:00', '15:00') RETURNING id; -- id14 (вс)
 
 -- Сотрудник 3
-INSERT INTO week_schedule (week_schedule_id, employee_id, day_of_week, start_time, end_time) VALUES
-                                                                                   (1, 3, 'monday', '09:00', '18:00'),
-                                                                                   (1, 3, 'tuesday', '09:00', '18:00'),
-                                                                                   (1, 3, 'wednesday', '09:00', '18:00'),
-                                                                                   (1, 3, 'thursday', '09:00', '18:00'),
-                                                                                   (1, 3, 'friday', '09:00', '18:00'),
-                                                                                   (1, 3, 'saturday', '10:00', '15:00'),
-                                                                                   (1, 3, 'sunday', '10:00', '15:00');
-
+INSERT INTO week_schedule (
+    monday_id, tuesday_id, wednesday_id, thursday_id,
+    friday_id, saturday_id, sunday_id, start_of_week
+) VALUES (15, 16, 17, 18, 19, 20, 21, DATE '2024-04-15');
 -- Сотрудник 4
-INSERT INTO week_schedule (week_schedule_id, employee_id, day_of_week, start_time, end_time) VALUES
-                                                                                   (1, 4, 'monday', '09:00', '18:00'),
-                                                                                   (1, 4, 'tuesday', '09:00', '18:00'),
-                                                                                   (1, 4, 'wednesday', '09:00', '18:00'),
-                                                                                   (1, 4, 'thursday', '09:00', '18:00'),
-                                                                                   (1, 4, 'friday', '09:00', '18:00'),
-                                                                                   (1, 4, 'saturday', '10:00', '15:00'),
-                                                                                   (1, 4, 'sunday', '10:00', '15:00');
-
+INSERT INTO week_schedule (
+    monday_id, tuesday_id, wednesday_id, thursday_id,
+    friday_id, saturday_id, sunday_id, start_of_week
+) VALUES (15, 16, 17, 18, 19, 20, 21, DATE '2024-04-15');
 -- Сотрудник 5
-INSERT INTO week_schedule (week_schedule_id, employee_id, day_of_week, start_time, end_time) VALUES
-                                                                                   (1, 5, 'monday', '09:00', '18:00'),
-                                                                                   (1, 5, 'tuesday', '09:00', '18:00'),
-                                                                                   (1, 5, 'wednesday', '09:00', '18:00'),
-                                                                                   (1, 5, 'thursday', '09:00', '18:00'),
-                                                                                   (1, 5, 'friday', '09:00', '18:00'),
-                                                                                   (1, 5, 'saturday', '10:00', '15:00'),
-                                                                                   (1, 5, 'sunday', '10:00', '15:00');
-
+INSERT INTO week_schedule (
+    monday_id, tuesday_id, wednesday_id, thursday_id,
+    friday_id, saturday_id, sunday_id, start_of_week
+) VALUES (15, 16, 17, 18, 19, 20, 21, DATE '2024-04-15');
 -- Сотрудник 6
-INSERT INTO week_schedule (week_schedule_id, employee_id, day_of_week, start_time, end_time) VALUES
-                                                                                   (1, 6, 'monday', '09:00', '18:00'),
-                                                                                   (1, 6, 'tuesday', '09:00', '18:00'),
-                                                                                   (1, 6, 'wednesday', '09:00', '18:00'),
-                                                                                   (1, 6, 'thursday', '09:00', '18:00'),
-                                                                                   (1, 6, 'friday', '09:00', '18:00'),
-                                                                                   (1, 6, 'saturday', '10:00', '15:00'),
-                                                                                   (1, 6, 'sunday', '10:00', '15:00');
-
+INSERT INTO week_schedule (
+    monday_id, tuesday_id, wednesday_id, thursday_id,
+    friday_id, saturday_id, sunday_id, start_of_week
+) VALUES (15, 16, 17, 18, 19, 20, 21, DATE '2024-04-15');
 -- Сотрудник 7
-INSERT INTO week_schedule (week_schedule_id, employee_id, day_of_week, start_time, end_time) VALUES
-                                                                                   (1, 7, 'monday', '09:00', '18:00'),
-                                                                                   (1, 7, 'tuesday', '09:00', '18:00'),
-                                                                                   (1, 7, 'wednesday', '09:00', '18:00'),
-                                                                                   (1, 7, 'thursday', '09:00', '18:00'),
-                                                                                   (1, 7, 'friday', '09:00', '18:00'),
-                                                                                   (1, 7, 'saturday', '10:00', '15:00'),
-                                                                                   (1, 7, 'sunday', '10:00', '15:00');
-
+INSERT INTO week_schedule (
+    monday_id, tuesday_id, wednesday_id, thursday_id,
+    friday_id, saturday_id, sunday_id, start_of_week
+) VALUES (15, 16, 17, 18, 19, 20, 21, DATE '2024-04-15');
 -- Сотрудник 8
-INSERT INTO week_schedule (week_schedule_id, employee_id, day_of_week, start_time, end_time) VALUES
-                                                                                   (1, 8, 'monday', '09:00', '18:00'),
-                                                                                   (1, 8, 'tuesday', '09:00', '18:00'),
-                                                                                   (1, 8, 'wednesday', '09:00', '18:00'),
-                                                                                   (1, 8, 'thursday', '09:00', '18:00'),
-                                                                                   (1, 8, 'friday', '09:00', '18:00'),
-                                                                                   (1, 8, 'saturday', '10:00', '15:00'),
-                                                                                   (1, 8, 'sunday', '10:00', '15:00');
+INSERT INTO week_schedule (
+    monday_id, tuesday_id, wednesday_id, thursday_id,
+    friday_id, saturday_id, sunday_id, start_of_week
+) VALUES (15, 16, 17, 18, 19, 20, 21, DATE '2024-04-15');
 
 -- Сотрудник 9
-INSERT INTO week_schedule (week_schedule_id, employee_id, day_of_week, start_time, end_time) VALUES
-                                                                                   (1, 9, 'monday', '09:00', '18:00'),
-                                                                                   (1, 9, 'tuesday', '09:00', '18:00'),
-                                                                                   (1, 9, 'wednesday', '09:00', '18:00'),
-                                                                                   (1, 9, 'thursday', '12:00', '18:00'),
-                                                                                   (1, 9, 'friday', '09:00', '18:00'),
-                                                                                   (1, 9, 'saturday', '10:00', '15:00'),
-                                                                                   (1, 9, 'sunday', '10:00', '15:00');
+-- Понедельник-среда, пятница: 09:00–18:00
+INSERT INTO day_schedule ("start", "end") VALUES ('09:00', '18:00') RETURNING id; -- id15 (пн)
+INSERT INTO day_schedule ("start", "end") VALUES ('09:00', '18:00') RETURNING id; -- id16 (вт)
+INSERT INTO day_schedule ("start", "end") VALUES ('09:00', '18:00') RETURNING id; -- id17 (ср)
+-- Четверг: 12:00–18:00
+INSERT INTO day_schedule ("start", "end") VALUES ('12:00', '18:00') RETURNING id; -- id18 (чт)
+INSERT INTO day_schedule ("start", "end") VALUES ('09:00', '18:00') RETURNING id; -- id19 (пт)
+-- Суббота-воскресенье: 10:00–15:00
+INSERT INTO day_schedule ("start", "end") VALUES ('10:00', '15:00') RETURNING id; -- id20 (сб)
+INSERT INTO day_schedule ("start", "end") VALUES ('10:00', '15:00') RETURNING id; -- id21 (вс)
+
+INSERT INTO week_schedule (
+    monday_id, tuesday_id, wednesday_id, thursday_id,
+    friday_id, saturday_id, sunday_id, start_of_week
+) VALUES (22, 23, 24, 25, 26, 27, 28, DATE '2024-04-15');
 
 -- Сотрудник 10
-INSERT INTO week_schedule (week_schedule_id, employee_id, day_of_week, start_time, end_time) VALUES
-                                                                                   (1, 10, 'monday', '09:00', '18:00'),
-                                                                                   (1, 10, 'tuesday', '09:00', '18:00'),
-                                                                                   (1, 10, 'wednesday', '09:50', '18:10'),
-                                                                                   (1, 10, 'thursday', '09:00', '18:00'),
-                                                                                   (1, 10, 'friday', '19:00', '22:00'),
-                                                                                   (1, 10, 'saturday', '11:00', '12:00'),
-                                                                                   (1, 10, 'sunday', '10:00', '15:00');
+-- Понедельник-вторник: 09:00–18:00
+INSERT INTO day_schedule ("start", "end") VALUES ('09:00', '18:00') RETURNING id; -- id22 (пн)
+INSERT INTO day_schedule ("start", "end") VALUES ('09:00', '18:00') RETURNING id; -- id23 (вт)
+-- Среда: 09:50–18:10
+INSERT INTO day_schedule ("start", "end") VALUES ('09:50', '18:10') RETURNING id; -- id24 (ср)
+-- Четверг: 09:00–18:00
+INSERT INTO day_schedule ("start", "end") VALUES ('09:00', '18:00') RETURNING id; -- id25 (чт)
+-- Пятница: 19:00–22:00
+INSERT INTO day_schedule ("start", "end") VALUES ('19:00', '22:00') RETURNING id; -- id26 (пт)
+-- Суббота: 11:00–12:00
+INSERT INTO day_schedule ("start", "end") VALUES ('11:00', '12:00') RETURNING id; -- id27 (сб)
+-- Воскресенье: 10:00–15:00
+INSERT INTO day_schedule ("start", "end") VALUES ('10:00', '15:00') RETURNING id; -- id28 (вс)
+
+INSERT INTO week_schedule (
+    monday_id, tuesday_id, wednesday_id, thursday_id,
+    friday_id, saturday_id, sunday_id, start_of_week
+) VALUES (29, 30, 31, 32, 33, 34, 35, DATE '2024-04-15');
 
 -- Сотрудник 11
-INSERT INTO week_schedule (week_schedule_id, employee_id, day_of_week, start_time, end_time) VALUES
-                                                                                   (1, 11, 'monday', '09:00', '18:00'),
-                                                                                   (1, 11, 'tuesday', '09:10', '18:00'),
-                                                                                   (1, 11, 'wednesday', '09:00', '18:00'),
-                                                                                   (1, 11, 'thursday', '09:00', '11:00'),
-                                                                                   (1, 11, 'friday', '09:30', '18:00'),
-                                                                                   (1, 11, 'saturday', '10:00', '15:00'),
-                                                                                   (1, 11, 'sunday', '10:00', '15:00');
+-- Понедельник: 09:00–18:00
+INSERT INTO day_schedule ("start", "end") VALUES ('09:00', '18:00') RETURNING id; -- id29 (пн)
+-- Вторник: 09:10–18:00
+INSERT INTO day_schedule ("start", "end") VALUES ('09:10', '18:00') RETURNING id; -- id30 (вт)
+-- Среда: 09:00–18:00
+INSERT INTO day_schedule ("start", "end") VALUES ('09:00', '18:00') RETURNING id; -- id31 (ср)
+-- Четверг: 09:00–11:00
+INSERT INTO day_schedule ("start", "end") VALUES ('09:00', '11:00') RETURNING id; -- id32 (чт)
+-- Пятница: 09:30–18:00
+INSERT INTO day_schedule ("start", "end") VALUES ('09:30', '18:00') RETURNING id; -- id33 (пт)
+-- Суббота-воскресенье: 10:00–15:00
+INSERT INTO day_schedule ("start", "end") VALUES ('10:00', '15:00') RETURNING id; -- id34 (сб)
+INSERT INTO day_schedule ("start", "end") VALUES ('10:00', '15:00') RETURNING id; -- id35 (вс)
+
+INSERT INTO week_schedule (
+    monday_id, tuesday_id, wednesday_id, thursday_id,
+    friday_id, saturday_id, sunday_id, start_of_week
+) VALUES (36, 37, 38, 39, 40, 41, 42, DATE '2024-04-15');
 
 -- Сотрудник 12
-INSERT INTO week_schedule (week_schedule_id, employee_id, day_of_week, start_time, end_time) VALUES
-                                                                                   (1, 12, 'monday', '09:00', '18:00'),
-                                                                                   (1, 12, 'tuesday', '09:00', '18:00'),
-                                                                                   (1, 12, 'wednesday', '09:00', '18:00'),
-                                                                                   (1, 12, 'thursday', '09:00', '18:00'),
-                                                                                   (1, 12, 'friday', '09:00', '18:00'),
-                                                                                   (1, 12, 'saturday', '10:00', '15:00'),
-                                                                                   (1, 12, 'sunday', '10:00', '13:00');
+-- Понедельник-пятница: 09:00–18:00
+INSERT INTO day_schedule ("start", "end") VALUES ('09:00', '18:00') RETURNING id; -- id36 (пн)
+INSERT INTO day_schedule ("start", "end") VALUES ('09:00', '18:00') RETURNING id; -- id37 (вт)
+INSERT INTO day_schedule ("start", "end") VALUES ('09:00', '18:00') RETURNING id; -- id38 (ср)
+INSERT INTO day_schedule ("start", "end") VALUES ('09:00', '18:00') RETURNING id; -- id39 (чт)
+INSERT INTO day_schedule ("start", "end") VALUES ('09:00', '18:00') RETURNING id; -- id40 (пт)
+-- Суббота: 10:00–15:00
+INSERT INTO day_schedule ("start", "end") VALUES ('10:00', '15:00') RETURNING id; -- id41 (сб)
+-- Воскресенье: 10:00–13:00
+INSERT INTO day_schedule ("start", "end") VALUES ('10:00', '13:00') RETURNING id; -- id42 (вс)
+
+INSERT INTO week_schedule (
+    monday_id, tuesday_id, wednesday_id, thursday_id,
+    friday_id, saturday_id, sunday_id, start_of_week
+) VALUES (43, 44, 45, 46, 47, 48, 49, DATE '2024-04-15');
