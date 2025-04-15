@@ -1,28 +1,33 @@
 package com.ms.ssw.backend.model;
 
 public class EmployeeDTO {
-    private long id;
+//    private long id;
     private String fio;
     private WeekScheduleDTO weekSchedule;
 
-    public EmployeeDTO(long id, String fio, WeekScheduleDTO weekSchedule) {
-        this.id = id;
+    public EmployeeDTO(String fio, WeekScheduleDTO weekSchedule) {
         this.fio = fio;
         this.weekSchedule = weekSchedule;
     }
 
-    public EmployeeDTO(long id, String fio) {
-        this.id = id;
-        this.fio = fio;
-    }
+//    public EmployeeDTO(long id, String fio, WeekScheduleDTO weekSchedule) {
+//        this.id = id;
+//        this.fio = fio;
+//        this.weekSchedule = weekSchedule;
+//    }
 
-    public long getId() {
-        return id;
-    }
+//    public EmployeeDTO(long id, String fio) {
+//        this.id = id;
+//        this.fio = fio;
+//    }
 
-    public void setId(long id) {
-        this.id = id;
-    }
+//    public long getId() {
+//        return id;
+//    }
+
+//    public void setId(long id) {
+//        this.id = id;
+//    }
 
     public String getFio() {
         return fio;

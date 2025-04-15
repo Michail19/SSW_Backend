@@ -1,5 +1,7 @@
 package com.ms.ssw.backend.controller;
 
+import com.ms.ssw.backend.model.Employee;
+import com.ms.ssw.backend.model.EmployeeDTO;
 import com.ms.ssw.backend.model.SchedulePageResponseDTO;
 import com.ms.ssw.backend.model.ScheduleUpdateRequest;
 import com.ms.ssw.backend.service.ScheduleService;
@@ -29,12 +31,12 @@ public class ScheduleController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addEmployee(@RequestBody List<ScheduleUpdateRequest> requestList) {
-        scheduleService.addNewEmployee(requestList);
+    public ResponseEntity<?> addEmployee(@RequestBody EmployeeDTO employee) {
+        scheduleService.addNewEmployee(employee);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/delete")
+    @PostMapping("/delete/{employeeId}")
     public ResponseEntity<?> deleteEmployee(@PathVariable("employeeId") Long employeeId) {
         scheduleService.deleteEmployeeById(employeeId);
         return ResponseEntity.ok().build();

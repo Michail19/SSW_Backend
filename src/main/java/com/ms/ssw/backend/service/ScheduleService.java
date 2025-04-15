@@ -2,7 +2,9 @@ package com.ms.ssw.backend.service;
 
 import com.ms.ssw.backend.model.*;
 import com.ms.ssw.backend.repository.EmployeeRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
@@ -99,7 +101,7 @@ public class ScheduleService {
         return dto;
     }
 
-
+    @Transactional
     public void updateSchedules(List<ScheduleUpdateRequest> requestList) {
         for (ScheduleUpdateRequest request : requestList) {
             Employee employee = employeeDetailsRepository.findById(request.getEmployeeId())
@@ -138,9 +140,32 @@ public class ScheduleService {
         return ds;
     }
 
-    public void addNewEmployee(List<ScheduleUpdateRequest> requestList) {
+    @Transactional
+    public void addNewEmployee(EmployeeDTO employee) {
+        Employee toEmployee = new Employee();
+        WeekSchedule weekSchedule = new WeekSchedule();
+
+        weekSchedule.setMonday(convertToEntity(employee.getWeekSchedule().getMonday()));
+        weekSchedule.setTuesday(convertToEntity(employee.getWeekSchedule().getTuesday()));
+        weekSchedule.setWednesday(convertToEntity(employee.getWeekSchedule().getWednesday()));
+        weekSchedule.setThursday(convertToEntity(employee.getWeekSchedule().getThursday()));
+        weekSchedule.setFriday(convertToEntity(employee.getWeekSchedule().getFriday()));
+        weekSchedule.setSaturday(convertToEntity(employee.getWeekSchedule().getSaturday()));
+        weekSchedule.setSunday(convertToEntity(employee.getWeekSchedule().getSunday()));
+
+        toEmployee.setFio(employee.getFio());
+        toEmployee.setWeekSchedule(weekSchedule);
+
+        employeeDetailsRepository.save(toEmployee);
     }
 
+    @Transactional
     public void deleteEmployeeById(Long employeeId) {
+        try {
+            employeeDetailsRepository.deleteById(employeeId);
+//            log.info("Employee {} deleted successfully", employeeId);
+        } catch (EmptyResultDataAccessException e) {
+//            log.warn("Attempt to delete non-existing employee: {}", employeeId);
+        }
     }
 }

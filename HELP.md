@@ -328,3 +328,11 @@ curl -H "Authorization: Bearer /./" http://localhost:8080/schedule/weekly
 ```bash
 curl -X POST http://localhost:8080/schedule/update -H "Content-Type: application/json" -H "Authorization: Bearer /./" -d "[{\"employeeId\": 1, \"weekStart\": \"2024-04-15\", \"schedule\": {\"monday\": {\"start\": \"03:00\", \"end\": \"13:42\"}, \"tuesday\": {\"start\": \"08:10\", \"end\": \"15:30\"}, \"wednesday\": {\"start\": \"15:20\", \"end\": \"20:20\"}, \"thursday\": {\"start\": \"15:30\", \"end\": \"21:30\"}, \"friday\": {\"start\": \"08:02\", \"end\": \"15:20\"}, \"saturday\": {\"start\": null, \"end\": null}, \"sunday\": {\"start\": \"08:00\", \"end\": \"12:30\"}}}, {\"employeeId\": 2, \"weekStart\": \"2024-04-15\", \"schedule\": {\"monday\": {\"start\": \"08:02\", \"end\": \"17:00\"}}}]"
 ```
+
+```bash
+curl -X POST http://localhost:8080/schedule/add -H "Content-Type: application/json" -H "Authorization: Bearer /./" -d "[{\"fio\":\"Иванов Иван Иоанович\", \"schedule\": {\"monday\": {\"start\": \"03:00\", \"end\": \"13:42\"}, \"tuesday\": {\"start\": \"08:10\", \"end\": \"15:30\"}, \"wednesday\": {\"start\": \"15:20\", \"end\": \"20:20\"}, \"thursday\": {\"start\": \"15:30\", \"end\": \"21:30\"}, \"friday\": {\"start\": \"08:02\", \"end\": \"15:20\"}, \"saturday\": {\"start\": null, \"end\": null}, \"sunday\": {\"start\": \"08:00\", \"end\": \"12:30\"}}}]"
+```
+
+```bash
+curl -X DELETE http://localhost:8080/schedule/delete/5 -H "Authorization: Bearer /./"
+```
