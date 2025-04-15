@@ -98,4 +98,43 @@ public class ScheduleService {
         dto.setSunday(new DayScheduleDTO(null, null));
         return dto;
     }
+
+
+    public void updateSchedules(List<ScheduleUpdateRequest> requestList) {
+        for (ScheduleUpdateRequest request : requestList) {
+            Employee employee = employeeDetailsRepository.findById(request.getEmployeeId())
+                    .orElseThrow(() -> new RuntimeException("Сотрудник не найден"));
+            WeekScheduleDTO dto = request.getSchedule();
+
+            WeekSchedule schedule = employee.getWeekSchedule();
+            if (schedule == null) {
+                schedule = new WeekSchedule();
+                employee.setWeekSchedule(schedule);
+            }
+
+            schedule.setStartOfWeek(request.getWeekStart());
+
+            System.out.println(dto.getMonday().getStart() + " " + dto.getMonday().getEnd());
+            if (dto.getMonday() != null) schedule.setMonday(convertToEntity(dto.getMonday()));
+            if (dto.getTuesday() != null) schedule.setTuesday(convertToEntity(dto.getTuesday()));
+            if (dto.getWednesday() != null) schedule.setWednesday(convertToEntity(dto.getWednesday()));
+            if (dto.getThursday() != null) schedule.setThursday(convertToEntity(dto.getThursday()));
+            if (dto.getFriday() != null) schedule.setFriday(convertToEntity(dto.getFriday()));
+            if (dto.getSaturday() != null) schedule.setSaturday(convertToEntity(dto.getSaturday()));
+            if (dto.getSunday() != null) schedule.setSunday(convertToEntity(dto.getSunday()));
+
+            employeeDetailsRepository.save(employee);
+        }
+    }
+
+    private DaySchedule convertToEntity(DayScheduleDTO range) {
+//        if (range == null) return new DaySchedule("-1", "-1");
+        if (range.getStart() == null || range.getEnd() == null)
+            return null;
+
+        DaySchedule ds = new DaySchedule();
+        ds.setStart(range.getStart());
+        ds.setEnd(range.getEnd());
+        return ds;
+    }
 }
