@@ -6,25 +6,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "project")
 public class Project {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "project_name")  // Соответствует столбцу в БД
     private String name;
 
-    @ManyToMany
-    @JoinTable(
-            name = "employee_projects", // Название таблицы связи
-            joinColumns = @JoinColumn(name = "project_id"), // Колонка для связи с проектом
-            inverseJoinColumns = @JoinColumn(name = "employee_id") // Колонка для связи с сотрудником
-    )
-    private List<EmployeeLess> employees = new ArrayList<>();
+    @ManyToMany(mappedBy = "projects")  // Указываем на поле в Employee
+    private List<Employee> employees = new ArrayList<>();
 
     // Конструкторы, геттеры и сеттеры
 
-    public Project(String name, List<EmployeeLess> employees) {
+    public Project(String name, List<Employee> employees) {
         this.name = name;
         this.employees = employees;
     }
@@ -49,11 +45,11 @@ public class Project {
         this.name = name;
     }
 
-    public List<EmployeeLess> getEmployees() {
+    public List<Employee> getEmployees() {
         return employees;
     }
 
-    public void setEmployees(List<EmployeeLess> employees) {
+    public void setEmployees(List<Employee> employees) {
         this.employees = employees;
     }
 }

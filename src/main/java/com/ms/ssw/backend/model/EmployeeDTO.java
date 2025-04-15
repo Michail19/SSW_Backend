@@ -2,13 +2,18 @@ package com.ms.ssw.backend.model;
 
 public class EmployeeDTO {
     private long id;
-    private EmployeeLessDTO employeeLess;
+    private String fio;
     private WeekScheduleDTO weekSchedule;
 
-    public EmployeeDTO(long id, EmployeeLessDTO employeeLess, WeekScheduleDTO weekSchedule) {
+    public EmployeeDTO(long id, String fio, WeekScheduleDTO weekSchedule) {
         this.id = id;
-        this.employeeLess = employeeLess;
+        this.fio = fio;
         this.weekSchedule = weekSchedule;
+    }
+
+    public EmployeeDTO(long id, String fio) {
+        this.id = id;
+        this.fio = fio;
     }
 
     public long getId() {
@@ -19,12 +24,12 @@ public class EmployeeDTO {
         this.id = id;
     }
 
-    public EmployeeLessDTO getEmployeeLess() {
-        return employeeLess;
+    public String getFio() {
+        return fio;
     }
 
-    public void setEmployeeLess(EmployeeLessDTO employeeLess) {
-        this.employeeLess = employeeLess;
+    public void setFio(String fio) {
+        this.fio = fio;
     }
 
     public WeekScheduleDTO getWeekSchedule() {

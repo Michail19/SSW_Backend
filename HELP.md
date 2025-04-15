@@ -284,3 +284,10 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 ### Заключение
 
 В случае с отношением **многие ко многим**, необходимо использовать аннотацию `@ManyToMany`, которая указывает на связь между сущностями. В JPA, при правильной настройке таблицы связи через `@JoinTable`, эта связь будет эффективно поддерживаться. Важно отметить, что с таким подходом вы можете легко добавлять или удалять связи между проектами и сотрудниками, а таблица связи будет автоматически управляться через репозитории.
+
+-------------------
+
+Запуск:
+```bash
+curl -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc0NDcwMTk5NSwiZXhwIjoxNzQ0NzM3OTk1fQ.5xOZWOxekBypHVXV4MiI1cEdpfT2AmtUVpZF1uHvuEifM85r8CIJsP31fakRVVje1kxPCdkhb9mIP6Q0CtY1hQ" http://localhost:8080/schedule/weekly
+```

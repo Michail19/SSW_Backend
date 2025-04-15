@@ -46,9 +46,8 @@ public class ScheduleService {
     }
 
     private EmployeeDetailsResponseDTO convertToDTO(Employee details) {
-        EmployeeLess employee = details.getEmployeeData();
 
-        String projects = employee.getProjects().stream()
+        String projects = details.getProjects().stream()
                 .map(Project::getName)
                 .collect(Collectors.joining(" "));
 
@@ -56,23 +55,47 @@ public class ScheduleService {
 
         return new EmployeeDetailsResponseDTO(
                 details.getId(),
-                employee.getFio(),
+                details.getFio(),
                 projects,
                 scheduleDTO
         );
     }
 
     private WeekScheduleDTO toDto(WeekSchedule entity) {
+        if (entity == null) {
+            return createEmptySchedule(); // Возвращаем пустое расписание
+        }
+
         WeekScheduleDTO dto = new WeekScheduleDTO();
 
-        dto.setMonday(new DayScheduleDTO(entity.getMonday().getStart(), entity.getMonday().getEnd()));
-        dto.setTuesday(new DayScheduleDTO(entity.getTuesday().getStart(), entity.getTuesday().getEnd()));
-        dto.setWednesday(new DayScheduleDTO(entity.getWednesday().getStart(), entity.getWednesday().getEnd()));
-        dto.setThursday(new DayScheduleDTO(entity.getThursday().getStart(), entity.getThursday().getEnd()));
-        dto.setFriday(new DayScheduleDTO(entity.getFriday().getStart(), entity.getFriday().getEnd()));
-        dto.setSaturday(new DayScheduleDTO(entity.getSaturday().getStart(), entity.getSaturday().getEnd()));
-        dto.setSunday(new DayScheduleDTO(entity.getSunday().getStart(), entity.getSunday().getEnd()));
+        // Для каждого дня проверяем наличие DaySchedule
+        dto.setMonday(createDayScheduleDTO(entity.getMonday()));
+        dto.setTuesday(createDayScheduleDTO(entity.getTuesday()));
+        dto.setWednesday(createDayScheduleDTO(entity.getWednesday()));
+        dto.setThursday(createDayScheduleDTO(entity.getThursday()));
+        dto.setFriday(createDayScheduleDTO(entity.getFriday()));
+        dto.setSaturday(createDayScheduleDTO(entity.getSaturday()));
+        dto.setSunday(createDayScheduleDTO(entity.getSunday()));
 
+        return dto;
+    }
+
+    private DayScheduleDTO createDayScheduleDTO(DaySchedule daySchedule) {
+        if (daySchedule == null) {
+            return new DayScheduleDTO(null, null); // Или установите значения по умолчанию
+        }
+        return new DayScheduleDTO(daySchedule.getStart(), daySchedule.getEnd());
+    }
+
+    private WeekScheduleDTO createEmptySchedule() {
+        WeekScheduleDTO dto = new WeekScheduleDTO();
+        dto.setMonday(new DayScheduleDTO(null, null));
+        dto.setTuesday(new DayScheduleDTO(null, null));
+        dto.setWednesday(new DayScheduleDTO(null, null));
+        dto.setThursday(new DayScheduleDTO(null, null));
+        dto.setFriday(new DayScheduleDTO(null, null));
+        dto.setSaturday(new DayScheduleDTO(null, null));
+        dto.setSunday(new DayScheduleDTO(null, null));
         return dto;
     }
 }
