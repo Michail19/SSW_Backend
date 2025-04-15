@@ -62,6 +62,9 @@ http://localhost:8080/api/ping
 ```
 http://localhost:8080/api/users
 ```
+```
+curl http://localhost:8080/api/employees/weekly
+```
 
 ----------------
 
