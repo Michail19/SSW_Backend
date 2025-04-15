@@ -1,9 +1,6 @@
 package com.ms.ssw.backend.controller;
 
-import com.ms.ssw.backend.model.Employee;
-import com.ms.ssw.backend.model.EmployeeDetailsResponseDTO;
-import com.ms.ssw.backend.model.ProjectDTO;
-import com.ms.ssw.backend.model.SchedulePageResponseDTO;
+import com.ms.ssw.backend.model.*;
 import com.ms.ssw.backend.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +24,7 @@ public class ProjectController {
     }
 
     @GetMapping("/all")
-    public ProjectDTO getAllProjects() {
+    public ProjectPageResponseDTO getAllProjects() {
         return projectService.getFullProjects();
     }
 }

@@ -25,21 +25,21 @@ public class ProjectService {
         Project project = projectRepository.findById(projectId).orElseThrow(() -> new RuntimeException("Проект не найден"));
 
         // Преобразуем сущность Project в ProjectDTO
-        List<EmployeeDTO> employeeDTOs = new ArrayList<>();
+        List<EmployeeLessDTO> employeeDTOs = new ArrayList<>();
         for (Employee employee : project.getEmployees()) {
-            employeeDTOs.add(new EmployeeDTO(employee.getId(), employee.getFio()));
+            employeeDTOs.add(new EmployeeLessDTO(employee.getId(), employee.getFio()));
         }
 
         return new ProjectDTO(project.getName(), employeeDTOs);
     }
 
-    public ProjectDTO getFullProjects() {
+    public ProjectPageResponseDTO getFullProjects() {
         List<Project> project = projectRepository.findAll();
 
-        List<EmployeeDTO> employeeDTOs = new ArrayList<>();
+        List<EmployeeLessDTO> employeeDTOs = new ArrayList<>();
         for (Project project1 : project) {
             for (Employee employee : project1.getEmployees()) {
-                employeeDTOs.add(new EmployeeDTO(employee.getId(), employee.getFio()));
+                employeeDTOs.add(new EmployeeLessDTO(employee.getId(), employee.getFio()));
             }
         }
 

@@ -4,9 +4,9 @@ import java.util.List;
 
 public class ProjectPageResponseDTO {
     private String currentWeek;
-    private List<Project> projects;
+    private List<EmployeeLessDTO> projects;
 
-    public ProjectPageResponseDTO(String currentWeek, List<Project> projects) {
+    public ProjectPageResponseDTO(String currentWeek, List<EmployeeLessDTO> projects) {
         this.currentWeek = currentWeek;
         this.projects = projects;
     }
@@ -19,11 +19,11 @@ public class ProjectPageResponseDTO {
         this.currentWeek = currentWeek;
     }
 
-    public List<Project> getEmployees() {
+    public List<EmployeeLessDTO> getEmployees() {
         return projects;
     }
 
-    public void setEmployees(List<Project> employees) {
+    public void setEmployees(List<EmployeeLessDTO> employees) {
         this.projects = employees;
     }
 }

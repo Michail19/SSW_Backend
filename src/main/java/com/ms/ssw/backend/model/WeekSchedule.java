@@ -13,24 +13,31 @@ public class WeekSchedule {
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "monday_id") // Явно укажите имя столбца внешнего ключа
     private DaySchedule monday;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "tuesday_id")
     private DaySchedule tuesday;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "wednesday_id")
     private DaySchedule wednesday;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "thursday_id")
     private DaySchedule thursday;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "friday_id")
     private DaySchedule friday;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "saturday_id")
     private DaySchedule saturday;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "sunday_id")
     private DaySchedule sunday;
 
     private LocalDate startOfWeek; // для понимания, к какой неделе относится

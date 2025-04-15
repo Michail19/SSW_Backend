@@ -9,7 +9,10 @@ public class DaySchedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "start") // Соответствует столбцу в БД
     private String start;
+
+    @Column(name = "end") // Соответствует столбцу в БД
     private String end;
 
     public DaySchedule(String start, String end) {

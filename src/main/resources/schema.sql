@@ -8,8 +8,8 @@ DROP TABLE IF EXISTS week_schedule CASCADE;
 -- Создаем таблицу для расписания сотрудников с правильными ссылками
 CREATE TABLE IF NOT EXISTS day_schedule (
                                             id SERIAL PRIMARY KEY,
-                                            "start" TIME,
-                                            "end" TIME
+                                            "start" VARCHAR(50),
+                                            "end" VARCHAR(50)
 );
 
 CREATE TABLE IF NOT EXISTS week_schedule (
