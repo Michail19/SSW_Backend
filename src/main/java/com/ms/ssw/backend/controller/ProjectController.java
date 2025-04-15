@@ -3,10 +3,8 @@ package com.ms.ssw.backend.controller;
 import com.ms.ssw.backend.model.*;
 import com.ms.ssw.backend.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -26,5 +24,11 @@ public class ProjectController {
     @GetMapping("/all")
     public ProjectPageResponseDTO getAllProjects() {
         return projectService.getFullProjects();
+    }
+
+    @GetMapping("/change")
+    public ResponseEntity<?> changeProjectEmployee(@RequestBody List<ScheduleUpdateRequest> requestList) {
+        projectService.changeEmployee(requestList);
+        return ResponseEntity.ok().build();
     }
 }

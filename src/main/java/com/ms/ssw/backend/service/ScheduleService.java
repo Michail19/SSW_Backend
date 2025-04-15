@@ -137,4 +137,10 @@ public class ScheduleService {
         ds.setEnd(range.getEnd());
         return ds;
     }
+
+    public void addNewEmployee(List<ScheduleUpdateRequest> requestList) {
+    }
+
+    public void deleteEmployeeById(Long employeeId) {
+    }
 }

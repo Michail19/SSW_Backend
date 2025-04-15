@@ -27,5 +27,17 @@ public class ScheduleController {
         scheduleService.updateSchedules(requestList);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/add")
+    public ResponseEntity<?> addEmployee(@RequestBody List<ScheduleUpdateRequest> requestList) {
+        scheduleService.addNewEmployee(requestList);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<?> deleteEmployee(@PathVariable("employeeId") Long employeeId) {
+        scheduleService.deleteEmployeeById(employeeId);
+        return ResponseEntity.ok().build();
+    }
 }
 
