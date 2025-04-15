@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "week_schedule")
 public class WeekSchedule {
 
     @Id
