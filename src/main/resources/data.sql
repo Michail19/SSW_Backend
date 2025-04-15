@@ -149,7 +149,6 @@ INSERT INTO week_schedule (
              DATE '2024-04-15'  -- пример понедельника текущей недели
          ) RETURNING id;
 
-
 -- Сотрудник 2
 -- Понедельник-четверг: 08:00–17:00
 INSERT INTO day_schedule ("start", "end") VALUES ('08:00', '17:00') RETURNING id; -- id1 (пн)
@@ -282,3 +281,17 @@ INSERT INTO week_schedule (
     monday_id, tuesday_id, wednesday_id, thursday_id,
     friday_id, saturday_id, sunday_id, start_of_week
 ) VALUES (43, 44, 45, 46, 47, 48, 49, DATE '2024-04-15');
+
+-- Свяжите сотрудника с расписанием
+UPDATE employee SET week_schedule_id = 1 WHERE id = 1;
+UPDATE employee SET week_schedule_id = 2 WHERE id = 2;
+UPDATE employee SET week_schedule_id = 3 WHERE id = 3;
+UPDATE employee SET week_schedule_id = 4 WHERE id = 4;
+UPDATE employee SET week_schedule_id = 5 WHERE id = 5;
+UPDATE employee SET week_schedule_id = 6 WHERE id = 6;
+UPDATE employee SET week_schedule_id = 7 WHERE id = 7;
+UPDATE employee SET week_schedule_id = 8 WHERE id = 8;
+UPDATE employee SET week_schedule_id = 9 WHERE id = 9;
+UPDATE employee SET week_schedule_id = 10 WHERE id = 10;
+UPDATE employee SET week_schedule_id = 11 WHERE id = 11;
+UPDATE employee SET week_schedule_id = 12 WHERE id = 12;

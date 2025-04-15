@@ -40,6 +40,7 @@ public class WeekSchedule {
     @JoinColumn(name = "sunday_id")
     private DaySchedule sunday;
 
+    @Column(name = "start_of_week")
     private LocalDate startOfWeek; // для понимания, к какой неделе относится
 
     public WeekSchedule(DaySchedule monday,

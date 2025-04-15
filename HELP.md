@@ -292,5 +292,5 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 curl -X POST http://localhost:8080/auth/login -H "Content-Type: application/json" -d "{\"username\":\"admin\",\"password\":\"1234\"}"
 ```
 ```bash
-curl -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc0NDcxNDU5MiwiZXhwIjoxNzQ0NzUwNTkyfQ.Yb7ze0enezrvRT19taxa2rV39PzMHNHU0m36gkilR8vwgV6zTmTItn9s5pygpEERxpe8B3wOYfkfZ_K6u3B_5Q" http://localhost:8080/schedule/weekly
+curl -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc0NDcxNTk5MiwiZXhwIjoxNzQ0NzUxOTkyfQ.2sAPnnIrxu2PT5vdAThTMTfMhEHvisrVcrY0cyMtzSLrPy5XwulTu4TwKd7S91kmcVvodhzWJC6Wk0x2saq6Wg" http://localhost:8080/schedule/weekly
 ```
