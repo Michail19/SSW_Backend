@@ -8,10 +8,8 @@ import org.springframework.stereotype.Service;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.time.format.TextStyle;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,18 +32,19 @@ public class ProjectService {
     }
 
     public ProjectPageResponseDTO getFullProjects() {
+        String currentWeek = formatCurrentWeek(LocalDate.now());
         List<Project> project = projectRepository.findAll();
+        Map<String, List<EmployeeLessDTO>> projectsMap = new HashMap<>();
 
-        List<EmployeeLessDTO> employeeDTOs = new ArrayList<>();
         for (Project project1 : project) {
-            for (Employee employee : project1.getEmployees()) {
-                employeeDTOs.add(new EmployeeLessDTO(employee.getId(), employee.getFio()));
-            }
+            List<EmployeeLessDTO> employees = project1.getEmployees().stream()
+                    .map(emp -> new EmployeeLessDTO(emp.getId(), emp.getFio()))
+                    .collect(Collectors.toList());
+
+            projectsMap.put(project1.getName(), employees);
         }
 
-        String currentWeek = formatCurrentWeek(LocalDate.now());
-
-        return new ProjectPageResponseDTO(currentWeek, employeeDTOs);
+        return new ProjectPageResponseDTO(currentWeek, projectsMap);
     }
 
     private String formatCurrentWeek(LocalDate today) {

@@ -1,12 +1,13 @@
 package com.ms.ssw.backend.model;
 
 import java.util.List;
+import java.util.Map;
 
 public class ProjectPageResponseDTO {
     private String currentWeek;
-    private List<EmployeeLessDTO> projects;
+    private Map<String, List<EmployeeLessDTO>> projects; // Ключ - название проекта
 
-    public ProjectPageResponseDTO(String currentWeek, List<EmployeeLessDTO> projects) {
+    public ProjectPageResponseDTO(String currentWeek, Map<String, List<EmployeeLessDTO>> projects) {
         this.currentWeek = currentWeek;
         this.projects = projects;
     }
@@ -19,11 +20,11 @@ public class ProjectPageResponseDTO {
         this.currentWeek = currentWeek;
     }
 
-    public List<EmployeeLessDTO> getEmployees() {
+    public Map<String, List<EmployeeLessDTO>> getEmployees() {
         return projects;
     }
 
-    public void setEmployees(List<EmployeeLessDTO> employees) {
+    public void setEmployees(Map<String, List<EmployeeLessDTO>> employees) {
         this.projects = employees;
     }
 }

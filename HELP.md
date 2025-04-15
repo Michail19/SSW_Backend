@@ -289,5 +289,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
 Запуск:
 ```bash
-curl -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc0NDcwNDI0MiwiZXhwIjoxNzQ0NzQwMjQyfQ._AYeZKEy0xQzWbdMeYuPypqnpGxl1IF3C9PPyB5NOd14GlypbiuPtQQQHLaiKQYl8orLdYEKS4ROZd_3KoAH4g" http://localhost:8080/schedule/weekly
+curl -X POST http://localhost:8080/auth/login -H "Content-Type: application/json" -d "{\"username\":\"admin\",\"password\":\"1234\"}"
+```
+```bash
+curl -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc0NDcxNDU5MiwiZXhwIjoxNzQ0NzUwNTkyfQ.Yb7ze0enezrvRT19taxa2rV39PzMHNHU0m36gkilR8vwgV6zTmTItn9s5pygpEERxpe8B3wOYfkfZ_K6u3B_5Q" http://localhost:8080/schedule/weekly
 ```
