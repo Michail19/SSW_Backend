@@ -1,7 +1,9 @@
 package com.ms.ssw.backend.service;
 
 import com.ms.ssw.backend.model.*;
+import com.ms.ssw.backend.repository.EmployeeRepository;
 import com.ms.ssw.backend.repository.ProjectRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,9 @@ public class ProjectService {
 
     @Autowired
     private ProjectRepository projectRepository;
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     public ProjectDTO getProjectById(Long projectId) {
         // Получаем проект из репозитория
@@ -61,7 +66,28 @@ public class ProjectService {
         return String.format("%s-%s %s %d", startDay, endDay, month, year);
     }
 
-    public void changeEmployee(List<ScheduleUpdateRequest> requestList) {
+    @Transactional
+    public void changeEmployee(List<EmployeeProjectsDTO> requestList) {
+        for (EmployeeProjectsDTO dto : requestList) {
+            Project project = projectRepository.findByName(dto.getProject())
+                    .orElseThrow(() -> new RuntimeException("Проект не найден: " + dto.getProject()));
 
+            for (EmployeeLessDTO fio : dto.getFio()) {
+                Employee employee = employeeRepository.findById(fio.getId())
+                        .orElseThrow(() -> new RuntimeException("Сотрудник не найден: " + fio.getFio()));
+
+                if ("add".equalsIgnoreCase(dto.getAction())) {
+                    if (!project.getEmployees().contains(employee)) {
+                        project.getEmployees().add(employee);
+                        employee.getProjects().add(project); // двусторонняя связь
+                    }
+                } else if ("remove".equalsIgnoreCase(dto.getAction())) {
+                    project.getEmployees().remove(employee);
+                    employee.getProjects().remove(project); // двусторонняя связь
+                }
+            }
+
+            projectRepository.save(project);
+        }
     }
 }

@@ -315,6 +315,85 @@ POST JSON's
 ]
 ```
 
+```bash
+curl -X POST http://localhost:8080/projects/change \
+  -H "Authorization: Bearer <ВАШ_ТОКЕН>" \
+  -H "Content-Type: application/json" \
+  -d '[
+    {
+      "action": "add",
+      "fio": [
+        { "id": 2, "fio": "Иванов Иван Иванович" },
+        { "id": 5, "fio": "Петров Петр Петрович" },
+        { "id": 6, "fio": "Петров Петр Петрович" }
+      ],
+      "project": "Project_Yandex_WEB-LAREK"
+    }
+  ]'
+
+curl -X POST http://localhost:8080/projects/change \
+  -H "Authorization: Bearer <ВАШ_ТОКЕН>" \
+  -H "Content-Type: application/json" \
+  -d '[
+    {
+      "action": "remove",
+      "fio": [
+        { "id": 2, "fio": "Иванов Иван Иванович" }
+      ],
+      "project": "Project_Yandex_WEB-LAREK"
+    }
+  ]'
+
+curl -X POST http://localhost:8080/projects/change \
+  -H "Authorization: Bearer <ВАШ_ТОКЕН>" \
+  -H "Content-Type: application/json" \
+  -d '[
+    {
+      "action": "add",
+      "fio": [
+        { "id": 7, "fio": "Петров Петр Петрович" },
+        { "id": 8, "fio": "Петров Петр Петрович" },
+        { "id": 9, "fio": "Петров Петр Петрович" },
+        { "id": 10, "fio": "Петров Петр Петрович" }
+      ],
+      "project": "Project_Yandex_BLOG"
+    }
+  ]'
+
+curl -X POST http://localhost:8080/projects/change \
+  -H "Authorization: Bearer <ВАШ_ТОКЕН>" \
+  -H "Content-Type: application/json" \
+  -d '[
+    {
+      "action": "remove",
+      "fio": [
+        { "id": 9, "fio": "Петров Петр Петрович" },
+        { "id": 10, "fio": "Петров Петр Петрович" },
+        { "id": 11, "fio": "Петров Петр Петрович" },
+        { "id": 12, "fio": "Петров Петр Петрович" }
+      ],
+      "project": "Project_Yandex_BLOG"
+    }
+  ]'
+
+curl -X POST http://localhost:8080/projects/change \
+  -H "Authorization: Bearer <ВАШ_ТОКЕН>" \
+  -H "Content-Type: application/json" \
+  -d '[
+    {
+      "action": "remove",
+      "fio": [
+        { "id": 9, "fio": "Петров Петр Петрович" },
+        { "id": 10, "fio": "Петров Петр Петрович" },
+        { "id": 11, "fio": "Петров Петр Петрович" },
+        { "id": 12, "fio": "Петров Петр Петрович" }
+      ],
+      "project": "Project_Yandex_BLOG"
+    }
+  ]'
+
+```
+
 -------------------
 
 Запуск:
@@ -322,7 +401,7 @@ POST JSON's
 curl -X POST http://localhost:8080/auth/login -H "Content-Type: application/json" -d "{\"username\":\"admin\",\"password\":\"1234\"}"
 ```
 ```bash
-curl -H "Authorization: Bearer /./" http://localhost:8080/schedule/weekly
+curl -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc0NDgzNDUzNSwiZXhwIjoxNzQ0ODcwNTM1fQ.Y2NcmrREkGLy3dU-gjswTV2zIOhABgTHjE869A2NIKq-cJmO0tlrcSadF_n8l-nlLedXW6HCok7XWOAOQp-XXQ" http://localhost:8080/schedule/weekly
 ```
 
 ```bash
@@ -335,4 +414,8 @@ curl -X POST http://localhost:8080/schedule/add -H "Content-Type: application/js
 
 ```bash
 curl -X DELETE http://localhost:8080/schedule/delete/5 -H "Authorization: Bearer /./"
+```
+
+```bash
+curl -X POST http://localhost:8080/projects/change -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc0NDgzNDUzNSwiZXhwIjoxNzQ0ODcwNTM1fQ.Y2NcmrREkGLy3dU-gjswTV2zIOhABgTHjE869A2NIKq-cJmO0tlrcSadF_n8l-nlLedXW6HCok7XWOAOQp-XXQ" -H "Content-Type: application/json" -d "[{ \"action\": \"add\", \"fio\": [ { \"id\": 2, \"fio\": \"Иванов Иван Иванович\" }, { \"id\": 5, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 6, \"fio\": \"Петров Петр Петрович\" } ], \"project\": \"Project_Yandex_WEB-LAREK\" }, { \"action\": \"remove\", \"fio\": [ { \"id\": 2, \"fio\": \"Иванов Иван Иванович\" } ], \"project\": \"Project_Yandex_WEB-LAREK\" }, { \"action\": \"add\", \"fio\": [ { \"id\": 7, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 8, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 9, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 10, \"fio\": \"Петров Петр Петрович\" } ], \"project\": \"Project_Yandex_BLOG\" }, { \"action\": \"remove\", \"fio\": [ { \"id\": 9, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 10, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 11, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 12, \"fio\": \"Петров Петр Петрович\" } ], \"project\": \"Project_Yandex_BLOG\" }]"
 ```

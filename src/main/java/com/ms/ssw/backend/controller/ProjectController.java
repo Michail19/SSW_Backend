@@ -27,7 +27,7 @@ public class ProjectController {
     }
 
     @GetMapping("/change")
-    public ResponseEntity<?> changeProjectEmployee(@RequestBody List<ScheduleUpdateRequest> requestList) {
+    public ResponseEntity<?> changeProjectEmployee(@RequestBody List<EmployeeProjectsDTO> requestList) {
         projectService.changeEmployee(requestList);
         return ResponseEntity.ok().build();
     }
