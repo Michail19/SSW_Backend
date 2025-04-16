@@ -161,11 +161,17 @@ public class ScheduleService {
 
     @Transactional
     public void deleteEmployeeById(Long employeeId) {
-        try {
-            employeeDetailsRepository.deleteById(employeeId);
-//            log.info("Employee {} deleted successfully", employeeId);
-        } catch (EmptyResultDataAccessException e) {
-//            log.warn("Attempt to delete non-existing employee: {}", employeeId);
-        }
+        Employee employee = employeeDetailsRepository.getReferenceById(employeeId);
+
+        employee.getWeekSchedule().setMonday(null);
+        employee.getWeekSchedule().setTuesday(null);
+        employee.getWeekSchedule().setWednesday(null);
+        employee.getWeekSchedule().setThursday(null);
+        employee.getWeekSchedule().setFriday(null);
+        employee.getWeekSchedule().setSaturday(null);
+        employee.getWeekSchedule().setSunday(null);
+        employee.setWeekSchedule(null);
+
+        employeeDetailsRepository.deleteById(employeeId);
     }
 }

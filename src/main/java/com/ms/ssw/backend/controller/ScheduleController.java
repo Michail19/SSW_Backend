@@ -36,7 +36,7 @@ public class ScheduleController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/delete/{employeeId}")
+    @DeleteMapping("/delete/{employeeId}")
     public ResponseEntity<?> deleteEmployee(@PathVariable("employeeId") Long employeeId) {
         scheduleService.deleteEmployeeById(employeeId);
         return ResponseEntity.ok().build();
