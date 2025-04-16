@@ -3,11 +3,11 @@ package com.ms.ssw.backend.model;
 public class EmployeeDTO {
 //    private long id;
     private String fio;
-    private WeekScheduleDTO weekSchedule;
+    private WeekScheduleDTO schedule;
 
-    public EmployeeDTO(String fio, WeekScheduleDTO weekSchedule) {
+    public EmployeeDTO(String fio, WeekScheduleDTO schedule) {
         this.fio = fio;
-        this.weekSchedule = weekSchedule;
+        this.schedule = schedule;
     }
 
 //    public EmployeeDTO(long id, String fio, WeekScheduleDTO weekSchedule) {
@@ -38,10 +38,10 @@ public class EmployeeDTO {
     }
 
     public WeekScheduleDTO getWeekSchedule() {
-        return weekSchedule;
+        return schedule;
     }
 
-    public void setWeekSchedule(WeekScheduleDTO weekSchedule) {
-        this.weekSchedule = weekSchedule;
+    public void setWeekSchedule(WeekScheduleDTO schedule) {
+        this.schedule = schedule;
     }
 }

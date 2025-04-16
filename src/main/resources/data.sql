@@ -295,3 +295,5 @@ UPDATE employee SET week_schedule_id = 9 WHERE id = 9;
 UPDATE employee SET week_schedule_id = 10 WHERE id = 10;
 UPDATE employee SET week_schedule_id = 11 WHERE id = 11;
 UPDATE employee SET week_schedule_id = 12 WHERE id = 12;
+
+SELECT setval('employee_id_seq', 13, false);
