@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.WeekFields;
 import java.util.List;
 import java.time.format.TextStyle;
 import java.util.Locale;
@@ -106,17 +107,21 @@ public class ScheduleService {
         for (ScheduleUpdateRequest request : requestList) {
             Employee employee = employeeDetailsRepository.findById(request.getEmployeeId())
                     .orElseThrow(() -> new RuntimeException("Сотрудник не найден"));
+
+            // Считываем новый запрос расписания
             WeekScheduleDTO dto = request.getSchedule();
 
+            // Проверяем, если у сотрудника нет расписания, создаем новое
             WeekSchedule schedule = employee.getWeekSchedule();
             if (schedule == null) {
                 schedule = new WeekSchedule();
                 employee.setWeekSchedule(schedule);
             }
 
+            // Устанавливаем дату начала недели
             schedule.setStartOfWeek(request.getWeekStart());
 
-            System.out.println(dto.getMonday().getStart() + " " + dto.getMonday().getEnd());
+            // Обновляем дни недели
             if (dto.getMonday() != null) schedule.setMonday(convertToEntity(dto.getMonday()));
             if (dto.getTuesday() != null) schedule.setTuesday(convertToEntity(dto.getTuesday()));
             if (dto.getWednesday() != null) schedule.setWednesday(convertToEntity(dto.getWednesday()));
@@ -125,9 +130,11 @@ public class ScheduleService {
             if (dto.getSaturday() != null) schedule.setSaturday(convertToEntity(dto.getSaturday()));
             if (dto.getSunday() != null) schedule.setSunday(convertToEntity(dto.getSunday()));
 
+            // Сохраняем сотрудника с обновленным расписанием
             employeeDetailsRepository.save(employee);
         }
     }
+
 
     private DaySchedule convertToEntity(DayScheduleDTO range) {
 //        if (range == null) return new DaySchedule("-1", "-1");
@@ -173,5 +180,58 @@ public class ScheduleService {
         employee.setWeekSchedule(null);
 
         employeeDetailsRepository.deleteById(employeeId);
+    }
+
+
+//    @Transactional
+    public SchedulePageResponseDTO getFullSchedulePageForWeek(LocalDate anyDayOfWeek) {
+        LocalDate monday = anyDayOfWeek.with(DayOfWeek.MONDAY);
+
+        List<Employee> employees = employeeDetailsRepository.findAll();
+
+        List<EmployeeDetailsResponseDTO> employeeDTOs = employees.stream()
+                .map(employee -> {
+                    WeekSchedule schedule = employee.getWeekSchedule();
+                    // Проверяем, что расписание существует и относится к запрошенной неделе
+                    if (schedule == null || !isSameWeek(monday, schedule.getStartOfWeek())) {
+                        return convertToDTOWithEmptySchedule(employee);
+                    }
+                    return convertToDTO(employee);
+                })
+                .toList();
+
+        String formattedWeek = formatWeekRange(monday);
+
+        return new SchedulePageResponseDTO(formattedWeek, employeeDTOs);
+    }
+
+    private boolean isSameWeek(LocalDate date1, LocalDate date2) {
+        if (date1 == null || date2 == null) return false;
+        return date1.get(WeekFields.ISO.weekOfYear()) == date2.get(WeekFields.ISO.weekOfYear())
+                && date1.getYear() == date2.getYear();
+    }
+
+    private EmployeeDetailsResponseDTO convertToDTOWithEmptySchedule(Employee employee) {
+        return new EmployeeDetailsResponseDTO(
+                employee.getId(),
+                employee.getFio(),
+                employee.getProjects().stream()
+                        .map(Project::getName)
+                        .collect(Collectors.joining(" ")),
+                createEmptySchedule()
+        );
+    }
+
+    private String formatWeekRange(LocalDate monday) {
+        LocalDate sunday = monday.plusDays(6);
+        DateTimeFormatter dayFormatter = DateTimeFormatter.ofPattern("dd");
+        String month = monday.getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH).toLowerCase();
+        int year = monday.getYear();
+
+        return String.format("%s-%s %s %d",
+                monday.format(dayFormatter),
+                sunday.format(dayFormatter),
+                month,
+                year);
     }
 }

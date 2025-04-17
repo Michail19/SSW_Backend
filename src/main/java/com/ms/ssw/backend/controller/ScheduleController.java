@@ -5,9 +5,13 @@ import com.ms.ssw.backend.model.EmployeeDTO;
 import com.ms.ssw.backend.model.SchedulePageResponseDTO;
 import com.ms.ssw.backend.model.ScheduleUpdateRequest;
 import com.ms.ssw.backend.service.ScheduleService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 
 @RestController
@@ -20,8 +24,17 @@ public class ScheduleController {
     }
 
     @GetMapping("/weekly")
-    public SchedulePageResponseDTO getWeeklyEmployeeDetails() {
-        return scheduleService.getFullSchedulePage();
+    public SchedulePageResponseDTO getWeeklyEmployeeDetails(@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        // Если даты нет — берём сегодня
+        if (date == null) {
+            date = LocalDate.now();
+        }
+
+        // Приводим к понедельнику той недели
+//        LocalDate startOfWeek = date.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+
+        // Передаём строго понедельник
+        return scheduleService.getFullSchedulePageForWeek(date);
     }
 
     @PostMapping("/update")
