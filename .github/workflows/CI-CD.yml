@@ -42,13 +42,13 @@ jobs:
           sleep 2
         done
 
-    - name: Run tests with Maven
+    - name: Run tests with Gradle
       env:
         SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/testdb
         SPRING_DATASOURCE_USERNAME: testuser
         SPRING_DATASOURCE_PASSWORD: testpass
         SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      run: mvn test
+      run: ./gradlew test
 
   deploy:
     name: Build and Deploy
@@ -72,8 +72,8 @@ jobs:
         server-password: ${{ secrets.GITHUB_TOKEN }}
         overwrite-settings: true
 
-    - name: Build with Maven (skip tests)
-      run: mvn clean install -DskipTests=true
+    - name: Build with Gradle (skip tests)
+      run: ./gradlew clean build -x test
 
     - name: Deploy to Render
       env:
