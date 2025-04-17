@@ -14,6 +14,7 @@ public class User {
 
     private String password;
 
+    @Enumerated(EnumType.STRING)
     private AccessLevel level;
 
     @OneToOne(mappedBy = "user")

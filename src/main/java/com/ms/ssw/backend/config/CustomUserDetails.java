@@ -1,6 +1,5 @@
 package com.ms.ssw.backend.config;
 
-import com.ms.ssw.backend.model.AccessEntity;
 import com.ms.ssw.backend.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,26 +12,18 @@ import java.util.stream.Collectors;
 public class CustomUserDetails implements UserDetails {
 
     private final User user;
-    private final List<AccessEntity> accessList;
 
-    public CustomUserDetails(User user, List<AccessEntity> accessList) {
+    public CustomUserDetails(User user) {
         this.user = user;
-        this.accessList = accessList;
     }
 
     public Long getId() {
         return user.getId();
     }
 
-    public List<AccessEntity> getAccessList() {
-        return accessList;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return accessList.stream()
-                .map(a -> new SimpleGrantedAuthority(a.getAccessLevel()))
-                .collect(Collectors.toList());
+        return List.of(new SimpleGrantedAuthority("ROLE_" + user.getLevel().name()));
     }
 
     @Override
@@ -45,5 +36,7 @@ public class CustomUserDetails implements UserDetails {
         return user.getUsername();
     }
 
-    // Остальные методы возвращают true
+    public User getUser() {
+        return user;
+    }
 }

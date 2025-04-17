@@ -419,3 +419,226 @@ curl -X DELETE http://localhost:8080/schedule/delete/5 -H "Authorization: Bearer
 ```bash
 curl -X POST http://localhost:8080/projects/change -H "Authorization: Bearer /./" -H "Content-Type: application/json" -d "[{ \"action\": \"add\", \"fio\": [ { \"id\": 2, \"fio\": \"Иванов Иван Иванович\" }, { \"id\": 5, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 6, \"fio\": \"Петров Петр Петрович\" } ], \"project\": \"Project_Yandex_WEB-LAREK\" }, { \"action\": \"remove\", \"fio\": [ { \"id\": 2, \"fio\": \"Иванов Иван Иванович\" } ], \"project\": \"Project_Yandex_WEB-LAREK\" }, { \"action\": \"add\", \"fio\": [ { \"id\": 7, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 8, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 9, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 10, \"fio\": \"Петров Петр Петрович\" } ], \"project\": \"Project_Yandex_BLOG\" }, { \"action\": \"remove\", \"fio\": [ { \"id\": 9, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 10, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 11, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 12, \"fio\": \"Петров Петр Петрович\" } ], \"project\": \"Project_Yandex_BLOG\" }]"
 ```
+
+
+Как настроить мне привязку логина, пароля и уровня доступа к конкретному пользователю (у него есть уникальный id)?
+У меня на данный момент есть такие классы:
+```
+@Component
+public class JwtRequestFilter extends OncePerRequestFilter {
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
+
+        final String authHeader = request.getHeader("Authorization");
+
+        String username = null;
+        String jwt = null;
+
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            jwt = authHeader.substring(7);
+            try {
+                username = jwtTokenUtil.getUsernameFromToken(jwt);
+            } catch (Exception e) {
+                // неверный токен
+            }
+        }
+
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            UserDetails userDetails = new User(username, "", new ArrayList<>()); // можно использовать CustomUserDetailsService
+
+            if (jwtTokenUtil.validateToken(jwt, userDetails.getUsername())) {
+                UsernamePasswordAuthenticationToken authToken =
+                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authToken);
+            }
+        }
+
+        filterChain.doFilter(request, response);
+    }
+
+}
+```
+```
+@Component
+public class JwtTokenUtil {
+
+//    private final String secretKey = "3j5j3k4ljh3k5ljh3k4ljh3k4ljh3k4ljh3k4ljh3k4ljh3k4ljh3k4ljh3k4lj";  // Используйте безопасный секретный ключ
+    private final SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+
+    public String generateToken(UserDetails username) {
+        return Jwts.builder()
+                .setSubject(username.getUsername())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))  // 10 часов
+                .signWith(secretKey)  // Используем сгенерированный ключ
+                .compact();
+    }
+
+    public String getUsernameFromToken(String token) {
+        return extractClaims(token).getSubject();
+    }
+
+    private Claims extractClaims(String token) {
+        return Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+    public boolean validateToken(String token, String username) {
+        return (username.equals(getUsernameFromToken(token)) && !isTokenExpired(token));
+    }
+
+    private boolean isTokenExpired(String token) {
+        return extractClaims(token).getExpiration().before(new Date());
+    }
+}
+```
+```
+@Configuration
+@EnableWebSecurity
+@RequiredArgsConstructor
+public class SecurityConfig {
+
+    private final JwtRequestFilter jwtFilter;
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/auth/**").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
+    }
+}
+```
+```
+@RestController
+@RequestMapping("/auth")
+public class AuthController {
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
+
+    @PostMapping("/login")
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthRequest authRequest) {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
+            );
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+        }
+
+        UserDetails userDetails = customUserDetailsService.loadUserByUsername(authRequest.getUsername());
+        String token = jwtTokenUtil.generateToken(userDetails);
+
+        return ResponseEntity.ok(new AuthResponse(token));
+    }
+}
+```
+```
+@Service
+public class CustomUserDetailsService implements UserDetailsService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        return new CustomUserDetails(user);
+    }
+}
+```
+```
+public class LoginDTO {
+
+    private String username;
+    private String password;
+...
+```
+```
+public class CustomUserDetails implements UserDetails {
+
+    private final User user;
+
+    public CustomUserDetails(User user) {
+        this.user = user;
+    }
+
+    public Long getId() {
+        return user.getId();
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
+
+    @Override
+    public String getPassword() {
+        return user.getPassword();
+    }
+
+    @Override
+    public String getUsername() {
+        return user.getUsername();
+    }
+}
+```
+```
+@Entity
+@Table(name = "users")
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String username;
+
+    private String password;
+
+    private AccessLevel level;
+
+    @OneToOne(mappedBy = "user")
+    private Employee employee;
+
+```
+```
+public enum AccessLevel {
+    USER,
+    OWNER
+}
+```

@@ -1,9 +1,7 @@
 package com.ms.ssw.backend.service;
 
 import com.ms.ssw.backend.config.CustomUserDetails;
-import com.ms.ssw.backend.model.AccessEntity;
 import com.ms.ssw.backend.model.User;
-import com.ms.ssw.backend.repository.AccessRepository;
 import com.ms.ssw.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,17 +19,12 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private AccessRepository accessRepository;
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        List<AccessEntity> accessList = accessRepository.findByUser(user);
-
-        return new CustomUserDetails(user, accessList);
+        return new CustomUserDetails(user);
     }
 
     // Можно подключить UserRepository, если база есть
