@@ -19,10 +19,40 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.postgresql:postgresql'  // Драйвер PostgreSQL
+	implementation 'org.springframework.boot:spring-boot-starter-web'  // Для REST API
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.projectlombok:lombok:1.18.20'// Если используется Thymeleaf
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// Spring Boot Web
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// Spring Boot Security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	// JWT (JJWT)
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+	implementation 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok' // Для работы с JSON через Jackson
+
+	implementation 'org.flywaydb:flyway-core'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+jar {
+	archiveBaseName.set("app")
+	archiveVersion.set("0.0.1")
+	archiveClassifier.set("")
 }
