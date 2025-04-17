@@ -31,7 +31,7 @@ public class ScheduleController {
         }
 
         // Приводим к понедельнику той недели
-//        LocalDate startOfWeek = date.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        LocalDate startOfWeek = date.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
 
         // Передаём строго понедельник
         return scheduleService.getFullSchedulePageForWeek(date);
