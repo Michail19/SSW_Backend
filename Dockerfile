@@ -1,5 +1,5 @@
 # Используем официальный образ с JDK 17
-FROM gradle:8.5-jdk17 AS builder
+FROM gradle:8.5-jdk21 AS builder
 
 # Устанавливаем рабочую директорию
 WORKDIR /app
@@ -18,7 +18,7 @@ COPY . .
 RUN gradle bootJar --no-daemon
 
 # ——— Второй этап: минимальный образ для запуска ———
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:21-jre-alpine
 
 # Указываем рабочую директорию
 WORKDIR /app
