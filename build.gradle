@@ -43,6 +43,8 @@ dependencies {
 
 	implementation 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok' // Для работы с JSON через Jackson
+
+	implementation 'org.flywaydb:flyway-core'
 }
 
 tasks.named('test') {
