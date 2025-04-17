@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS employee (
                                         week_schedule_id INT UNIQUE,  -- OneToOne
                                         user_id INT UNIQUE,  -- связь один к одному с users
 
-                                        FOREIGN KEY (week_schedule_id) REFERENCES week_schedule(id) ON DELETE SET NULL
+                                        FOREIGN KEY (week_schedule_id) REFERENCES week_schedule(id) ON DELETE SET NULL,
                                         FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 );
 

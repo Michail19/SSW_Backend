@@ -398,7 +398,7 @@ curl -X POST http://localhost:8080/projects/change \
 
 Запуск:
 ```bash
-curl -X POST http://localhost:8080/auth/login -H "Content-Type: application/json" -d "{\"username\":\"admin\",\"password\":\"1234\"}"
+curl -X POST http://localhost:8080/auth/login -H "Content-Type: application/json" -d "{\"username\":\"ershov.m\",\"password\":\"encodedPassword1\"}"
 ```
 ```bash
 curl -H "Authorization: Bearer /./" http://localhost:8080/schedule/weekly
@@ -420,51 +420,11 @@ curl -X DELETE http://localhost:8080/schedule/delete/5 -H "Authorization: Bearer
 curl -X POST http://localhost:8080/projects/change -H "Authorization: Bearer /./" -H "Content-Type: application/json" -d "[{ \"action\": \"add\", \"fio\": [ { \"id\": 2, \"fio\": \"Иванов Иван Иванович\" }, { \"id\": 5, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 6, \"fio\": \"Петров Петр Петрович\" } ], \"project\": \"Project_Yandex_WEB-LAREK\" }, { \"action\": \"remove\", \"fio\": [ { \"id\": 2, \"fio\": \"Иванов Иван Иванович\" } ], \"project\": \"Project_Yandex_WEB-LAREK\" }, { \"action\": \"add\", \"fio\": [ { \"id\": 7, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 8, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 9, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 10, \"fio\": \"Петров Петр Петрович\" } ], \"project\": \"Project_Yandex_BLOG\" }, { \"action\": \"remove\", \"fio\": [ { \"id\": 9, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 10, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 11, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 12, \"fio\": \"Петров Петр Петрович\" } ], \"project\": \"Project_Yandex_BLOG\" }]"
 ```
 
-
-Как настроить мне привязку логина, пароля и уровня доступа к конкретному пользователю (у него есть уникальный id)?
-У меня на данный момент есть такие классы:
+```sql
+SELECT e.id AS employee_id, e.fio, u.username, u.level AS role FROM employee e JOIN users u ON e.user_id = u.id;
 ```
-@Component
-public class JwtRequestFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
-
-        final String authHeader = request.getHeader("Authorization");
-
-        String username = null;
-        String jwt = null;
-
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            jwt = authHeader.substring(7);
-            try {
-                username = jwtTokenUtil.getUsernameFromToken(jwt);
-            } catch (Exception e) {
-                // неверный токен
-            }
-        }
-
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = new User(username, "", new ArrayList<>()); // можно использовать CustomUserDetailsService
-
-            if (jwtTokenUtil.validateToken(jwt, userDetails.getUsername())) {
-                UsernamePasswordAuthenticationToken authToken =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authToken);
-            }
-        }
-
-        filterChain.doFilter(request, response);
-    }
-
-}
-```
 ```
 @Component
 public class JwtTokenUtil {
@@ -472,14 +432,22 @@ public class JwtTokenUtil {
 //    private final String secretKey = "3j5j3k4ljh3k5ljh3k4ljh3k4ljh3k4ljh3k4ljh3k4ljh3k4ljh3k4ljh3k4lj";  // Используйте безопасный секретный ключ
     private final SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 
-    public String generateToken(UserDetails username) {
+    public String generateToken(UserDetails userDetails) {
+        CustomUserDetails customUser = (CustomUserDetails) userDetails;
+
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", customUser.getId());
+        claims.put("accessLevel", customUser.getUser().getLevel().name());
+
         return Jwts.builder()
-                .setSubject(username.getUsername())
+                .setClaims(claims)
+                .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))  // 10 часов
-                .signWith(secretKey)  // Используем сгенерированный ключ
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
+                .signWith(secretKey)
                 .compact();
     }
+
 
     public String getUsernameFromToken(String token) {
         return extractClaims(token).getSubject();
@@ -499,6 +467,15 @@ public class JwtTokenUtil {
     private boolean isTokenExpired(String token) {
         return extractClaims(token).getExpiration().before(new Date());
     }
+
+    public String getAccessLevel(String token) {
+        return (String) extractClaims(token).get("accessLevel");
+    }
+
+    public Long getUserId(String token) {
+        return ((Number) extractClaims(token).get("userId")).longValue();
+    }
+
 }
 ```
 ```
@@ -525,12 +502,25 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(12);
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
+    public AuthenticationManager authenticationManager(HttpSecurity http,
+                                                       DaoAuthenticationProvider authProvider) throws Exception {
+        return http
+                .getSharedObject(AuthenticationManagerBuilder.class)
+                .authenticationProvider(authProvider)
+                .build();
+    }
+
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider(CustomUserDetailsService userDetailsService,
+                                                            PasswordEncoder passwordEncoder) {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder);
+        return authProvider;
     }
 }
 ```
@@ -582,13 +572,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 }
 ```
 ```
-public class LoginDTO {
-
-    private String username;
-    private String password;
-...
-```
-```
 public class CustomUserDetails implements UserDetails {
 
     private final User user;
@@ -603,7 +586,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return List.of(new SimpleGrantedAuthority("ROLE_" + user.getLevel().name()));
     }
 
     @Override
@@ -615,11 +598,59 @@ public class CustomUserDetails implements UserDetails {
     public String getUsername() {
         return user.getUsername();
     }
+
+    public User getUser() {
+        return user;
+    }
+}
+```
+```
+@Component
+public class JwtRequestFilter extends OncePerRequestFilter {
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
+
+        final String authHeader = request.getHeader("Authorization");
+
+        String username = null;
+        String jwt = null;
+
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            jwt = authHeader.substring(7);
+            try {
+                username = jwtTokenUtil.getUsernameFromToken(jwt);
+            } catch (Exception e) {
+                // неверный токен
+            }
+        }
+
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
+
+            if (jwtTokenUtil.validateToken(jwt, userDetails.getUsername())) {
+                UsernamePasswordAuthenticationToken authToken =
+                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authToken);
+            }
+        }
+
+        filterChain.doFilter(request, response);
+    }
 }
 ```
 ```
 @Entity
-@Table(name = "users")
+@Table(name = "users") // чтобы не конфликтовать с системным "user" в БД
 public class User {
 
     @Id
@@ -630,15 +661,10 @@ public class User {
 
     private String password;
 
+    @Enumerated(EnumType.STRING)
     private AccessLevel level;
 
     @OneToOne(mappedBy = "user")
+    @JsonIgnore
     private Employee employee;
-
-```
-```
-public enum AccessLevel {
-    USER,
-    OWNER
-}
 ```

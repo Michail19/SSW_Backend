@@ -1,5 +1,6 @@
 package com.ms.ssw.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -18,6 +19,7 @@ public class User {
     private AccessLevel level;
 
     @OneToOne(mappedBy = "user")
+    @JsonIgnore
     private Employee employee;
 
     public User(String username, String password, Employee employee, AccessLevel level) {
@@ -25,6 +27,9 @@ public class User {
         this.password = password;
         this.employee = employee;
         this.level = level;
+    }
+
+    public User() {
     }
 
     public Long getId() {
