@@ -8,20 +8,35 @@ TRUNCATE TABLE current_week CASCADE;
 -- Вставляем данные о текущей неделе
 INSERT INTO current_week (week_range) VALUES ('14-20 april 2025');
 
+-- Вставляем пользователей
+INSERT INTO users (id, username, password, level) VALUES
+    (1, 'ershov.m', 'encodedPassword1', 'OWNER'),
+    (2, 'ivanov.i', 'encodedPassword2', 'USER'),
+    (3, 'petrov.p1', 'encodedPassword3', 'USER'),
+    (4, 'petrov.p2', 'encodedPassword4', 'USER'),
+    (5, 'sidorov.s', 'encodedPassword5', 'USER'),
+    (6, 'kuznetsova.n', 'encodedPassword6', 'USER'),
+    (7, 'smirnov.v', 'encodedPassword7', 'USER'),
+    (8, 'alekseeva.l', 'encodedPassword8', 'USER'),
+    (9, 'fedorov.d', 'encodedPassword9', 'USER'),
+    (10, 'egorova.e', 'encodedPassword10', 'USER'),
+    (11, 'nikitin.a', 'encodedPassword11', 'USER'),
+    (12, 'tarasova.m', 'encodedPassword12', 'USER');
+
 -- Вставляем данные сотрудников
-INSERT INTO employee (id, fio) VALUES
-                                    (1, 'Ершов Михаил Алексеевич'),
-                                    (2, 'Иванов Иван Иванович'),
-                                    (3, 'Петров Петр Петрович'),
-                                    (4, 'Петров Петр Петрович'),
-                                    (5, 'Петров Петр Петрович'),
-                                    (6, 'Петров Петр Петрович'),
-                                    (7, 'Петров Петр Петрович'),
-                                    (8, 'Петров Петр Петрович'),
-                                    (9, 'Петров Петр Петрович'),
-                                    (10, 'Петров Петр Петрович'),
-                                    (11, 'Петров Петр Петрович'),
-                                    (12, 'Петров Петр Петрович');
+INSERT INTO employee (id, fio, user_id) VALUES
+                                        (1, 'Ершов Михаил Алексеевич', 1),
+                                        (2, 'Иванов Иван Иванович', 2),
+                                        (3, 'Петров Петр Петрович', 3),
+                                        (4, 'Петров Петр Сергеевич', 4),
+                                        (5, 'Сидоров Сергей Васильевич', 5),
+                                        (6, 'Кузнецова Надежда Игоревна', 6),
+                                        (7, 'Смирнов Виктор Петрович', 7),
+                                        (8, 'Алексеева Людмила Павловна', 8),
+                                        (9, 'Фёдоров Дмитрий Аркадьевич', 9),
+                                        (10, 'Егорова Екатерина Владимировна', 10),
+                                        (11, 'Никитин Алексей Валерьевич', 11),
+                                        (12, 'Тарасова Мария Олеговна', 12);
 
 -- Вставляем уникальные проекты
 INSERT INTO project (project_name) VALUES
