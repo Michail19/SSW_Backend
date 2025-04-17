@@ -11,7 +11,7 @@ INSERT INTO current_week (week_range) VALUES ('14-20 april 2025');
 -- Вставляем пользователей
 INSERT INTO users (id, username, password, level) VALUES
                                         (1, 'ershov.m', '$2a$12$rtfd779so3luDus8hIQ9KOOO4q8ESh9gbSlXRJvu.tBUpVihLkxua', 'OWNER'), -- encodedPassword1
-                                        (2, 'ivanov.i', '$2a$12$Y6QZz5lX2eJ7V8W9aBcDdeNkFmGoPqRsTuIwLb1jHvUc2nKlLx1Ym', 'USER'),  -- encodedPassword2
+                                        (2, 'ivanov.i', '$2a$12$Y6QZz5lX2eJ7V8W9aBcDdeNkFmGoPqRsTuIwLb1jHvUc2nKlLx1Ym', 'OWNER'),  -- encodedPassword2
                                         (3, 'petrov.p1', '$2a$12$3k5m2n1bV0cX9z8y7w6QeOhPqRsTuIwLb1jHvUc2nKlLx1YmY6QZz', 'USER'), -- encodedPassword3
                                         (4, 'petrov.p2', '$2a$12$7w6QeOhPqRsTuIwLb1jHvUc2nKlLx1YmY6QZz5lX2eJ7V8W9aBcDdeNkFm', 'USER'), -- encodedPassword4
                                         (5, 'sidorov.s', '$2a$12$V8W9aBcDdeNkFmGoPqRsTuIwLb1jHvUc2nKlLx1YmY6QZz5lX2eJ7V8W9', 'USER'), -- encodedPassword5

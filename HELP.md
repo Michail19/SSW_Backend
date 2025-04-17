@@ -400,9 +400,15 @@ curl -X POST http://localhost:8080/projects/change \
 ```bash
 curl -X POST http://localhost:8080/auth/login -H "Content-Type: application/json" -d "{\"username\":\"ershov.m\",\"password\":\"encodedPassword1\"}"
 ```
+```bash
+curl -X POST https://ssw-backend.onrender.com/auth/login -H "Content-Type: application/json" -d "{\"username\":\"ershov.m\",\"password\":\"encodedPassword1\"}"
+```
 
 ```bash
 curl -H "Authorization: Bearer /./" http://localhost:8080/schedule/weekly
+```
+```bash
+curl -H "Authorization: Bearer /./" https://ssw-backend.onrender.com/schedule/weekly
 ```
 ```bash
 curl -H "Authorization: Bearer /./" http://localhost:8080/schedule/weekly?date=2025-04-21
