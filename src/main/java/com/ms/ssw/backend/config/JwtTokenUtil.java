@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -15,9 +16,9 @@ public class JwtTokenUtil {
 //    private final String secretKey = "3j5j3k4ljh3k5ljh3k4ljh3k4ljh3k4ljh3k4ljh3k4ljh3k4ljh3k4ljh3k4lj";  // Используйте безопасный секретный ключ
     private final SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 
-    public String generateToken(String username) {
+    public String generateToken(UserDetails username) {
         return Jwts.builder()
-                .setSubject(username)
+                .setSubject(username.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))  // 10 часов
                 .signWith(secretKey)  // Используем сгенерированный ключ

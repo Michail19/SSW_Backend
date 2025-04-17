@@ -26,6 +26,10 @@ public class Employee {
     )
     private List<Project> projects = new ArrayList<>();
 
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     // Геттеры и сеттеры
 
     public Employee() {
@@ -62,5 +66,13 @@ public class Employee {
 
     public void setProjects(List<Project> projects) {
         this.projects = projects;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
