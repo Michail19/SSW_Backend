@@ -402,29 +402,29 @@ curl -X POST http://localhost:8080/auth/login -H "Content-Type: application/json
 ```
 
 ```bash
-curl -H "Authorization: Bearer /./" http://localhost:8080/schedule/weekly
+curl -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJhY2Nlc3NMZXZlbCI6Ik9XTkVSIiwidXNlcklkIjoxLCJzdWIiOiJlcnNob3YubSIsImlhdCI6MTc0NDg5ODcyNSwiZXhwIjoxNzQ0OTM0NzI1fQ.LRubcD7-1Co2lUhgRIGKGN4x5C3-NmeySBCFBzf1Nx_vi_ixp342bjTR4e1hHlOwue6xJGQbXTakWMUbg7EN7g" http://localhost:8080/schedule/weekly
 ```
 ```bash
-curl -H "Authorization: Bearer /./" http://localhost:8080/schedule/weekly?date=2024-04-21
-```
-
-```bash
-curl -X POST http://localhost:8080/schedule/update -H "Content-Type: application/json" -H "Authorization: Bearer /./" -d "[{\"employeeId\": 1, \"weekStart\": \"2024-04-14\", \"schedule\": {\"monday\": {\"start\": \"03:00\", \"end\": \"13:42\"}, \"tuesday\": {\"start\": \"08:10\", \"end\": \"15:30\"}, \"wednesday\": {\"start\": \"15:20\", \"end\": \"20:20\"}, \"thursday\": {\"start\": \"15:30\", \"end\": \"21:30\"}, \"friday\": {\"start\": \"08:02\", \"end\": \"15:20\"}, \"saturday\": {\"start\": null, \"end\": null}, \"sunday\": {\"start\": \"08:00\", \"end\": \"12:30\"}}}, {\"employeeId\": 2, \"weekStart\": \"2024-04-14\", \"schedule\": {\"monday\": {\"start\": \"08:02\", \"end\": \"17:00\"}}}]"
-```
-```bash
-curl -X POST http://localhost:8080/schedule/update -H "Content-Type: application/json" -H "Authorization: Bearer /./" -d "[{\"employeeId\": 1, \"weekStart\": \"2024-04-21\", \"schedule\": {\"monday\": {\"start\": \"03:00\", \"end\": \"13:42\"}, \"tuesday\": {\"start\": \"08:10\", \"end\": \"15:30\"}, \"wednesday\": {\"start\": \"15:20\", \"end\": \"20:20\"}, \"thursday\": {\"start\": \"15:30\", \"end\": \"21:30\"}, \"friday\": {\"start\": \"08:02\", \"end\": \"15:20\"}, \"saturday\": {\"start\": null, \"end\": null}, \"sunday\": {\"start\": \"08:00\", \"end\": \"12:30\"}}}, {\"employeeId\": 2, \"weekStart\": \"2024-04-21\", \"schedule\": {\"monday\": {\"start\": \"08:02\", \"end\": \"17:00\"}}}]"
+curl -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJhY2Nlc3NMZXZlbCI6Ik9XTkVSIiwidXNlcklkIjoxLCJzdWIiOiJlcnNob3YubSIsImlhdCI6MTc0NDg5ODcyNSwiZXhwIjoxNzQ0OTM0NzI1fQ.LRubcD7-1Co2lUhgRIGKGN4x5C3-NmeySBCFBzf1Nx_vi_ixp342bjTR4e1hHlOwue6xJGQbXTakWMUbg7EN7g" http://localhost:8080/schedule/weekly?date=2025-04-21
 ```
 
 ```bash
-curl -X POST http://localhost:8080/schedule/add -H "Content-Type: application/json" -H "Authorization: Bearer /./" -d "{\"fio\":\"Иванов Иван Иоанович\", \"schedule\": {\"monday\": {\"start\": \"03:00\", \"end\": \"13:42\"}, \"tuesday\": {\"start\": \"08:10\", \"end\": \"15:30\"}, \"wednesday\": {\"start\": \"15:20\", \"end\": \"20:20\"}, \"thursday\": {\"start\": \"15:30\", \"end\": \"21:30\"}, \"friday\": {\"start\": \"08:02\", \"end\": \"15:20\"}, \"saturday\": {\"start\": null, \"end\": null}, \"sunday\": {\"start\": \"08:00\", \"end\": \"12:30\"}}}"
+curl -X POST http://localhost:8080/schedule/update -H "Content-Type: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJhY2Nlc3NMZXZlbCI6Ik9XTkVSIiwidXNlcklkIjoxLCJzdWIiOiJlcnNob3YubSIsImlhdCI6MTc0NDg5ODcyNSwiZXhwIjoxNzQ0OTM0NzI1fQ.LRubcD7-1Co2lUhgRIGKGN4x5C3-NmeySBCFBzf1Nx_vi_ixp342bjTR4e1hHlOwue6xJGQbXTakWMUbg7EN7g" -d "[{\"employeeId\": 1, \"weekStart\": \"2024-04-14\", \"schedule\": {\"monday\": {\"start\": \"03:00\", \"end\": \"13:42\"}, \"tuesday\": {\"start\": \"08:10\", \"end\": \"15:30\"}, \"wednesday\": {\"start\": \"15:20\", \"end\": \"20:20\"}, \"thursday\": {\"start\": \"15:30\", \"end\": \"21:30\"}, \"friday\": {\"start\": \"08:02\", \"end\": \"15:20\"}, \"saturday\": {\"start\": null, \"end\": null}, \"sunday\": {\"start\": \"08:00\", \"end\": \"12:30\"}}}, {\"employeeId\": 2, \"weekStart\": \"2024-04-14\", \"schedule\": {\"monday\": {\"start\": \"08:02\", \"end\": \"17:00\"}}}]"
+```
+```bash
+curl -X POST http://localhost:8080/schedule/update -H "Content-Type: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJhY2Nlc3NMZXZlbCI6Ik9XTkVSIiwidXNlcklkIjoxLCJzdWIiOiJlcnNob3YubSIsImlhdCI6MTc0NDg5ODcyNSwiZXhwIjoxNzQ0OTM0NzI1fQ.LRubcD7-1Co2lUhgRIGKGN4x5C3-NmeySBCFBzf1Nx_vi_ixp342bjTR4e1hHlOwue6xJGQbXTakWMUbg7EN7g" -d "[{\"employeeId\": 1, \"weekStart\": \"2024-04-21\", \"schedule\": {\"monday\": {\"start\": \"03:00\", \"end\": \"13:42\"}, \"tuesday\": {\"start\": \"08:10\", \"end\": \"15:30\"}, \"wednesday\": {\"start\": \"15:20\", \"end\": \"20:20\"}, \"thursday\": {\"start\": \"15:30\", \"end\": \"21:30\"}, \"friday\": {\"start\": \"08:02\", \"end\": \"15:20\"}, \"saturday\": {\"start\": null, \"end\": null}, \"sunday\": {\"start\": \"08:00\", \"end\": \"12:30\"}}}, {\"employeeId\": 2, \"weekStart\": \"2024-04-21\", \"schedule\": {\"monday\": {\"start\": \"08:02\", \"end\": \"17:00\"}}}]"
 ```
 
 ```bash
-curl -X DELETE http://localhost:8080/schedule/delete/5 -H "Authorization: Bearer /./"
+curl -X POST http://localhost:8080/schedule/add -H "Content-Type: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJhY2Nlc3NMZXZlbCI6Ik9XTkVSIiwidXNlcklkIjoxLCJzdWIiOiJlcnNob3YubSIsImlhdCI6MTc0NDg5ODcyNSwiZXhwIjoxNzQ0OTM0NzI1fQ.LRubcD7-1Co2lUhgRIGKGN4x5C3-NmeySBCFBzf1Nx_vi_ixp342bjTR4e1hHlOwue6xJGQbXTakWMUbg7EN7g" -d "{\"fio\":\"Иванов Иван Иоанович\", \"schedule\": {\"monday\": {\"start\": \"03:00\", \"end\": \"13:42\"}, \"tuesday\": {\"start\": \"08:10\", \"end\": \"15:30\"}, \"wednesday\": {\"start\": \"15:20\", \"end\": \"20:20\"}, \"thursday\": {\"start\": \"15:30\", \"end\": \"21:30\"}, \"friday\": {\"start\": \"08:02\", \"end\": \"15:20\"}, \"saturday\": {\"start\": null, \"end\": null}, \"sunday\": {\"start\": \"08:00\", \"end\": \"12:30\"}}}"
 ```
 
 ```bash
-curl -X POST http://localhost:8080/projects/change -H "Authorization: Bearer /./" -H "Content-Type: application/json" -d "[{ \"action\": \"add\", \"fio\": [ { \"id\": 2, \"fio\": \"Иванов Иван Иванович\" }, { \"id\": 5, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 6, \"fio\": \"Петров Петр Петрович\" } ], \"project\": \"Project_Yandex_WEB-LAREK\" }, { \"action\": \"remove\", \"fio\": [ { \"id\": 2, \"fio\": \"Иванов Иван Иванович\" } ], \"project\": \"Project_Yandex_WEB-LAREK\" }, { \"action\": \"add\", \"fio\": [ { \"id\": 7, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 8, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 9, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 10, \"fio\": \"Петров Петр Петрович\" } ], \"project\": \"Project_Yandex_BLOG\" }, { \"action\": \"remove\", \"fio\": [ { \"id\": 9, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 10, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 11, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 12, \"fio\": \"Петров Петр Петрович\" } ], \"project\": \"Project_Yandex_BLOG\" }]"
+curl -X DELETE http://localhost:8080/schedule/delete/5 -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJhY2Nlc3NMZXZlbCI6Ik9XTkVSIiwidXNlcklkIjoxLCJzdWIiOiJlcnNob3YubSIsImlhdCI6MTc0NDg5ODcyNSwiZXhwIjoxNzQ0OTM0NzI1fQ.LRubcD7-1Co2lUhgRIGKGN4x5C3-NmeySBCFBzf1Nx_vi_ixp342bjTR4e1hHlOwue6xJGQbXTakWMUbg7EN7g"
+```
+
+```bash
+curl -X POST http://localhost:8080/projects/change -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJhY2Nlc3NMZXZlbCI6Ik9XTkVSIiwidXNlcklkIjoxLCJzdWIiOiJlcnNob3YubSIsImlhdCI6MTc0NDg5ODcyNSwiZXhwIjoxNzQ0OTM0NzI1fQ.LRubcD7-1Co2lUhgRIGKGN4x5C3-NmeySBCFBzf1Nx_vi_ixp342bjTR4e1hHlOwue6xJGQbXTakWMUbg7EN7g" -H "Content-Type: application/json" -d "[{ \"action\": \"add\", \"fio\": [ { \"id\": 2, \"fio\": \"Иванов Иван Иванович\" }, { \"id\": 5, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 6, \"fio\": \"Петров Петр Петрович\" } ], \"project\": \"Project_Yandex_WEB-LAREK\" }, { \"action\": \"remove\", \"fio\": [ { \"id\": 2, \"fio\": \"Иванов Иван Иванович\" } ], \"project\": \"Project_Yandex_WEB-LAREK\" }, { \"action\": \"add\", \"fio\": [ { \"id\": 7, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 8, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 9, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 10, \"fio\": \"Петров Петр Петрович\" } ], \"project\": \"Project_Yandex_BLOG\" }, { \"action\": \"remove\", \"fio\": [ { \"id\": 9, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 10, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 11, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 12, \"fio\": \"Петров Петр Петрович\" } ], \"project\": \"Project_Yandex_BLOG\" }]"
 ```
 
 ```sql
