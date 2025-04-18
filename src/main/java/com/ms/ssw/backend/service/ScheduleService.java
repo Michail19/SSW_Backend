@@ -2,14 +2,17 @@ package com.ms.ssw.backend.service;
 
 import com.ms.ssw.backend.model.*;
 import com.ms.ssw.backend.repository.EmployeeRepository;
+import com.ms.ssw.backend.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.time.temporal.WeekFields;
 import java.util.List;
 import java.time.format.TextStyle;
@@ -21,6 +24,9 @@ public class ScheduleService {
 
     @Autowired
     private EmployeeRepository employeeDetailsRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     public SchedulePageResponseDTO getFullSchedulePage() {
         List<Employee> detailsList = employeeDetailsRepository.findAll();
@@ -160,15 +166,34 @@ public class ScheduleService {
         weekSchedule.setSaturday(convertToEntity(employee.getWeekSchedule().getSaturday()));
         weekSchedule.setSunday(convertToEntity(employee.getWeekSchedule().getSunday()));
 
+        LocalDate date = LocalDate.now();
+        LocalDate startOfWeek = date.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        weekSchedule.setStartOfWeek(startOfWeek);
+
         toEmployee.setFio(employee.getFio());
         toEmployee.setWeekSchedule(weekSchedule);
 
+        User user = new User();
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
+
+        user.setUsername(employee.getUsername());
+        user.setPassword(passwordEncoder.encode(employee.getPassword())); // Хеширование!
+        user.setLevel(AccessLevel.valueOf(employee.getLevel().toUpperCase())); // Преобразуем строку в enum
+
+        toEmployee.setUser(user);
+        user.setEmployee(toEmployee);  // Связь с Employee
+
         employeeDetailsRepository.save(toEmployee);
+        userRepository.save(user);
     }
 
     @Transactional
     public void deleteEmployeeById(Long employeeId) {
         Employee employee = employeeDetailsRepository.getReferenceById(employeeId);
+
+        userRepository.findByEmployeeId(employeeId).ifPresent(user -> {
+            userRepository.delete((User) user);
+        });
 
         employee.getWeekSchedule().setMonday(null);
         employee.getWeekSchedule().setTuesday(null);
