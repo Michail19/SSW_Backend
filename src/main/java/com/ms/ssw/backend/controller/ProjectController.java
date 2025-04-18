@@ -26,7 +26,7 @@ public class ProjectController {
         return projectService.getFullProjects();
     }
 
-    @GetMapping("/change")
+    @PostMapping("/change")
     public ResponseEntity<?> changeProjectEmployee(@RequestBody List<EmployeeProjectsDTO> requestList) {
         projectService.changeEmployee(requestList);
         return ResponseEntity.ok().build();
