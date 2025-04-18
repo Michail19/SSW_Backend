@@ -405,6 +405,7 @@ curl -X POST https://ssw-backend.onrender.com/auth/login -H "Content-Type: appli
 ```
 
 ```bash
+<<<<<<< Updated upstream
 curl -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJhY2Nlc3NMZXZlbCI6Ik9XTkVSIiwidXNlcklkIjoxLCJzdWIiOiJlcnNob3YubSIsImlhdCI6MTc0NDk3NDExNCwiZXhwIjoxNzQ1MDEwMTE0fQ.bZcsY5loYGOnvh4DzLK9IOlFvtV_FMaSsPKyK5ZPuW2IvDHRPShfoMub8AyPkm13vK-arANdAvGvYZS0e8Be4g" http://localhost:8080/schedule/weekly
 ```
 ```bash
@@ -440,6 +441,43 @@ curl -X POST http://localhost:8080/projects/change -H "Authorization: Bearer eyJ
 ```
 ```bash
 curl -X POST https://ssw-backend.onrender.com/projects/change -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJhY2Nlc3NMZXZlbCI6Ik9XTkVSIiwidXNlcklkIjoxLCJzdWIiOiJlcnNob3YubSIsImlhdCI6MTc0NDk3NDExNCwiZXhwIjoxNzQ1MDEwMTE0fQ.bZcsY5loYGOnvh4DzLK9IOlFvtV_FMaSsPKyK5ZPuW2IvDHRPShfoMub8AyPkm13vK-arANdAvGvYZS0e8Be4g" -H "Content-Type: application/json" -d "[{ \"action\": \"add\", \"fio\": [ { \"id\": 2, \"fio\": \"Иванов Иван Иванович\" }, { \"id\": 5, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 6, \"fio\": \"Петров Петр Петрович\" } ], \"project\": \"Project_Yandex_WEB-LAREK\" }, { \"action\": \"remove\", \"fio\": [ { \"id\": 2, \"fio\": \"Иванов Иван Иванович\" } ], \"project\": \"Project_Yandex_WEB-LAREK\" }, { \"action\": \"add\", \"fio\": [ { \"id\": 7, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 8, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 9, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 10, \"fio\": \"Петров Петр Петрович\" } ], \"project\": \"Project_Yandex_BLOG\" }, { \"action\": \"remove\", \"fio\": [ { \"id\": 9, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 10, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 11, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 12, \"fio\": \"Петров Петр Петрович\" } ], \"project\": \"Project_Yandex_BLOG\" }]"
+=======
+curl -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJhY2Nlc3NMZXZlbCI6Ik9XTkVSIiwidXNlcklkIjoxLCJzdWIiOiJlcnNob3YubSIsImlhdCI6MTc0NDk4NjAzMiwiZXhwIjoxNzQ1MDIyMDMyfQ.yu1CYJwsWVAR4EJ677W8VWMdqNtLoxzf6FUe2_uaCgK5rB9jgCdwePzb-bvkqnp2s2DWjun9WabQkISZQYfFMw" http://localhost:8080/schedule/weekly
+```
+```bash
+curl -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJhY2Nlc3NMZXZlbCI6Ik9XTkVSIiwidXNlcklkIjoxLCJzdWIiOiJlcnNob3YubSIsImlhdCI6MTc0NDk3NjcxMywiZXhwIjoxNzQ1MDEyNzEzfQ.bzMlGKUnNQSWIhllRK-a9_6LWQxYAbiZccHqD3aCFX5_A5T-Akc-AEv90BXsXftcy0P9JFLXtz7ssK4jnsm7Yg" https://ssw-backend.onrender.com/schedule/weekly
+```
+```bash
+curl -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJhY2Nlc3NMZXZlbCI6Ik9XTkVSIiwidXNlcklkIjoxLCJzdWIiOiJlcnNob3YubSIsImlhdCI6MTc0NDk3NjcxMywiZXhwIjoxNzQ1MDEyNzEzfQ.bzMlGKUnNQSWIhllRK-a9_6LWQxYAbiZccHqD3aCFX5_A5T-Akc-AEv90BXsXftcy0P9JFLXtz7ssK4jnsm7Yg" http://localhost:8080/schedule/weekly?date=2025-04-21
+```
+
+```bash
+curl -X POST http://localhost:8080/schedule/update -H "Content-Type: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJhY2Nlc3NMZXZlbCI6Ik9XTkVSIiwidXNlcklkIjoxLCJzdWIiOiJlcnNob3YubSIsImlhdCI6MTc0NDk3NjcxMywiZXhwIjoxNzQ1MDEyNzEzfQ.bzMlGKUnNQSWIhllRK-a9_6LWQxYAbiZccHqD3aCFX5_A5T-Akc-AEv90BXsXftcy0P9JFLXtz7ssK4jnsm7Yg" -d "[{\"employeeId\": 1, \"weekStart\": \"2025-04-14\", \"schedule\": {\"monday\": {\"start\": \"03:00\", \"end\": \"13:42\"}, \"tuesday\": {\"start\": \"08:10\", \"end\": \"15:30\"}, \"wednesday\": {\"start\": \"15:20\", \"end\": \"20:20\"}, \"thursday\": {\"start\": \"15:30\", \"end\": \"21:30\"}, \"friday\": {\"start\": \"08:02\", \"end\": \"15:20\"}, \"saturday\": {\"start\": null, \"end\": null}, \"sunday\": {\"start\": \"08:00\", \"end\": \"12:30\"}}}, {\"employeeId\": 2, \"weekStart\": \"2025-04-14\", \"schedule\": {\"monday\": {\"start\": \"08:02\", \"end\": \"17:00\"}}}]"
+```
+```bash
+curl -X POST https://ssw-backend.onrender.com/schedule/update -H "Content-Type: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJhY2Nlc3NMZXZlbCI6Ik9XTkVSIiwidXNlcklkIjoxLCJzdWIiOiJlcnNob3YubSIsImlhdCI6MTc0NDk3NjcxMywiZXhwIjoxNzQ1MDEyNzEzfQ.bzMlGKUnNQSWIhllRK-a9_6LWQxYAbiZccHqD3aCFX5_A5T-Akc-AEv90BXsXftcy0P9JFLXtz7ssK4jnsm7Yg" -d "[{\"employeeId\": 1, \"weekStart\": \"2025-04-14\", \"schedule\": {\"monday\": {\"start\": \"03:00\", \"end\": \"13:42\"}, \"tuesday\": {\"start\": \"08:10\", \"end\": \"15:30\"}, \"wednesday\": {\"start\": \"15:20\", \"end\": \"20:20\"}, \"thursday\": {\"start\": \"15:30\", \"end\": \"21:30\"}, \"friday\": {\"start\": \"08:02\", \"end\": \"15:20\"}, \"saturday\": {\"start\": null, \"end\": null}, \"sunday\": {\"start\": \"08:00\", \"end\": \"12:30\"}}}, {\"employeeId\": 2, \"weekStart\": \"2025-04-14\", \"schedule\": {\"monday\": {\"start\": \"08:02\", \"end\": \"17:00\"}}}]"
+```
+
+```bash
+curl -X POST http://localhost:8080/schedule/add -H "Content-Type: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJhY2Nlc3NMZXZlbCI6Ik9XTkVSIiwidXNlcklkIjoxLCJzdWIiOiJlcnNob3YubSIsImlhdCI6MTc0NDk4NjAzMiwiZXhwIjoxNzQ1MDIyMDMyfQ.yu1CYJwsWVAR4EJ677W8VWMdqNtLoxzf6FUe2_uaCgK5rB9jgCdwePzb-bvkqnp2s2DWjun9WabQkISZQYfFMw" -d "{\"fio\":\"Иванов Иван Иоанович\", \"username\":\"ivanov\", \"password\":\"securepass123\", \"role\":\"USER\", \"schedule\": {\"monday\": {\"start\": \"03:00\", \"end\": \"13:42\"}, \"tuesday\": {\"start\": \"08:10\", \"end\": \"15:30\"}, \"wednesday\": {\"start\": \"15:20\", \"end\": \"20:20\"}, \"thursday\": {\"start\": \"15:30\", \"end\": \"21:30\"}, \"friday\": {\"start\": \"08:02\", \"end\": \"15:20\"}, \"saturday\": {\"start\": null, \"end\": null}, \"sunday\": {\"start\": \"08:00\", \"end\": \"12:30\"}}}"
+```
+```bash
+curl -X POST https://ssw-backend.onrender.com/schedule/add -H "Content-Type: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJhY2Nlc3NMZXZlbCI6Ik9XTkVSIiwidXNlcklkIjoxLCJzdWIiOiJlcnNob3YubSIsImlhdCI6MTc0NDk3NjcxMywiZXhwIjoxNzQ1MDEyNzEzfQ.bzMlGKUnNQSWIhllRK-a9_6LWQxYAbiZccHqD3aCFX5_A5T-Akc-AEv90BXsXftcy0P9JFLXtz7ssK4jnsm7Yg" -d "{\"fio\":\"Иванов Иван Иоанович\", \"username\":\"ivanov\", \"password\":\"securepass123\", \"role\":\"USER\", \"schedule\": {\"monday\": {\"start\": \"03:00\", \"end\": \"13:42\"}, \"tuesday\": {\"start\": \"08:10\", \"end\": \"15:30\"}, \"wednesday\": {\"start\": \"15:20\", \"end\": \"20:20\"}, \"thursday\": {\"start\": \"15:30\", \"end\": \"21:30\"}, \"friday\": {\"start\": \"08:02\", \"end\": \"15:20\"}, \"saturday\": {\"start\": null, \"end\": null}, \"sunday\": {\"start\": \"08:00\", \"end\": \"12:30\"}}}"
+```
+
+```bash
+curl -X DELETE http://localhost:8080/schedule/delete/5 -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJhY2Nlc3NMZXZlbCI6Ik9XTkVSIiwidXNlcklkIjoxLCJzdWIiOiJlcnNob3YubSIsImlhdCI6MTc0NDk3NjcxMywiZXhwIjoxNzQ1MDEyNzEzfQ.bzMlGKUnNQSWIhllRK-a9_6LWQxYAbiZccHqD3aCFX5_A5T-Akc-AEv90BXsXftcy0P9JFLXtz7ssK4jnsm7Yg"
+```
+```bash
+curl -X DELETE https://ssw-backend.onrender.com/schedule/delete/5 -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJhY2Nlc3NMZXZlbCI6Ik9XTkVSIiwidXNlcklkIjoxLCJzdWIiOiJlcnNob3YubSIsImlhdCI6MTc0NDk3NjcxMywiZXhwIjoxNzQ1MDEyNzEzfQ.bzMlGKUnNQSWIhllRK-a9_6LWQxYAbiZccHqD3aCFX5_A5T-Akc-AEv90BXsXftcy0P9JFLXtz7ssK4jnsm7Yg"
+```
+
+```bash
+curl -X POST http://localhost:8080/projects/change -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJhY2Nlc3NMZXZlbCI6Ik9XTkVSIiwidXNlcklkIjoxLCJzdWIiOiJlcnNob3YubSIsImlhdCI6MTc0NDk4NjAzMiwiZXhwIjoxNzQ1MDIyMDMyfQ.yu1CYJwsWVAR4EJ677W8VWMdqNtLoxzf6FUe2_uaCgK5rB9jgCdwePzb-bvkqnp2s2DWjun9WabQkISZQYfFMw" -H "Content-Type: application/json" -d "[{ \"action\": \"add\", \"fio\": [ { \"id\": 2, \"fio\": \"Иванов Иван Иванович\" }, { \"id\": 5, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 6, \"fio\": \"Петров Петр Петрович\" } ], \"project\": \"Project_Yandex_WEB-LAREK\" }, { \"action\": \"remove\", \"fio\": [ { \"id\": 2, \"fio\": \"Иванов Иван Иванович\" } ], \"project\": \"Project_Yandex_WEB-LAREK\" }, { \"action\": \"add\", \"fio\": [ { \"id\": 7, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 452, \"fio\": \"Иванов Иван Иоаннович\" }, { \"id\": 8, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 9, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 10, \"fio\": \"Петров Петр Петрович\" } ], \"project\": \"Project_Yandex_BLOG\" }, { \"action\": \"remove\", \"fio\": [ { \"id\": 9, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 10, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 11, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 12, \"fio\": \"Петров Петр Петрович\" } ], \"project\": \"Project_Yandex_BLOG\" }]"
+```
+```bash
+curl -X POST https://ssw-backend.onrender.com/projects/change -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJhY2Nlc3NMZXZlbCI6Ik9XTkVSIiwidXNlcklkIjoxLCJzdWIiOiJlcnNob3YubSIsImlhdCI6MTc0NDk3NjcxMywiZXhwIjoxNzQ1MDEyNzEzfQ.bzMlGKUnNQSWIhllRK-a9_6LWQxYAbiZccHqD3aCFX5_A5T-Akc-AEv90BXsXftcy0P9JFLXtz7ssK4jnsm7Yg" -H "Content-Type: application/json" -d "[{ \"action\": \"add\", \"fio\": [ { \"id\": 2, \"fio\": \"Иванов Иван Иванович\" }, { \"id\": 5, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 6, \"fio\": \"Петров Петр Петрович\" } ], \"project\": \"Project_Yandex_WEB-LAREK\" }, { \"action\": \"remove\", \"fio\": [ { \"id\": 2, \"fio\": \"Иванов Иван Иванович\" } ], \"project\": \"Project_Yandex_WEB-LAREK\" }, { \"action\": \"add\", \"fio\": [ { \"id\": 7, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 452, \"fio\": \"Иванов Иван Иоаннович\" }, { \"id\": 8, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 9, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 10, \"fio\": \"Петров Петр Петрович\" } ], \"project\": \"Project_Yandex_BLOG\" }, { \"action\": \"remove\", \"fio\": [ { \"id\": 9, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 10, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 11, \"fio\": \"Петров Петр Петрович\" }, { \"id\": 12, \"fio\": \"Петров Петр Петрович\" } ], \"project\": \"Project_Yandex_BLOG\" }]"
+>>>>>>> Stashed changes
 ```
 
 ```sql
