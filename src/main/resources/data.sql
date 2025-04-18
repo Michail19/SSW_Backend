@@ -312,3 +312,4 @@ UPDATE employee SET week_schedule_id = 11 WHERE id = 11;
 UPDATE employee SET week_schedule_id = 12 WHERE id = 12;
 
 SELECT setval('employee_id_seq', 13, false);
+SELECT setval('users_id_seq', 13, false);
