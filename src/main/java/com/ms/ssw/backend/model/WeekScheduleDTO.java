@@ -2,8 +2,6 @@ package com.ms.ssw.backend.model;
 
 
 public class WeekScheduleDTO {
-    private Long id;
-
     private DayScheduleDTO monday;
     private DayScheduleDTO tuesday;
     private DayScheduleDTO wednesday;
@@ -28,14 +26,6 @@ public class WeekScheduleDTO {
         this.friday = friday;
         this.saturday = saturday;
         this.sunday = sunday;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public DayScheduleDTO getMonday() {
