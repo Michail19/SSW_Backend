@@ -11,17 +11,17 @@ INSERT INTO current_week (week_range) VALUES ('14-20 april 2025');
 -- Вставляем пользователей
 INSERT INTO users (id, username, password, level) VALUES
                                         (1, 'ershov.m', '$2a$12$rtfd779so3luDus8hIQ9KOOO4q8ESh9gbSlXRJvu.tBUpVihLkxua', 'OWNER'), -- encodedPassword1
-                                        (2, 'ivanov.i', '$2a$12$Y6QZz5lX2eJ7V8W9aBcDdeNkFmGoPqRsTuIwLb1jHvUc2nKlLx1Ym', 'OWNER'),  -- encodedPassword2
-                                        (3, 'petrov.p1', '$2a$12$3k5m2n1bV0cX9z8y7w6QeOhPqRsTuIwLb1jHvUc2nKlLx1YmY6QZz', 'USER'), -- encodedPassword3
-                                        (4, 'petrov.p2', '$2a$12$7w6QeOhPqRsTuIwLb1jHvUc2nKlLx1YmY6QZz5lX2eJ7V8W9aBcDdeNkFm', 'USER'), -- encodedPassword4
-                                        (5, 'sidorov.s', '$2a$12$V8W9aBcDdeNkFmGoPqRsTuIwLb1jHvUc2nKlLx1YmY6QZz5lX2eJ7V8W9', 'USER'), -- encodedPassword5
-                                        (6, 'kuznetsova.n', '$2a$12$GoPqRsTuIwLb1jHvUc2nKlLx1YmY6QZz5lX2eJ7V8W9aBcDdeNkFmGoPq', 'USER'), -- encodedPassword6
-                                        (7, 'smirnov.v', '$2a$12$TuIwLb1jHvUc2nKlLx1YmY6QZz5lX2eJ7V8W9aBcDdeNkFmGoPqRsTu', 'USER'), -- encodedPassword7
-                                        (8, 'alekseeva.l', '$2a$12$Lb1jHvUc2nKlLx1YmY6QZz5lX2eJ7V8W9aBcDdeNkFmGoPqRsTuIwL', 'USER'), -- encodedPassword8
-                                        (9, 'fedorov.d', '$2a$12$HvUc2nKlLx1YmY6QZz5lX2eJ7V8W9aBcDdeNkFmGoPqRsTuIwLb1jHv', 'USER'), -- encodedPassword9
-                                        (10, 'egorova.e', '$2a$12$2nKlLx1YmY6QZz5lX2eJ7V8W9aBcDdeNkFmGoPqRsTuIwLb1jHvUc2n', 'USER'), -- encodedPassword10
-                                        (11, 'nikitin.a', '$2a$12$KlLx1YmY6QZz5lX2eJ7V8W9aBcDdeNkFmGoPqRsTuIwLb1jHvUc2nKl', 'USER'), -- encodedPassword11
-                                        (12, 'tarasova.m', '$2a$12$x1YmY6QZz5lX2eJ7V8W9aBcDdeNkFmGoPqRsTuIwLb1jHvUc2nKlLx1', 'USER'); -- encodedPassword12
+                                        (2, 'ivanov.i', '$2a$12$vbXQR/TY1Iu0y9JmQ9j/x.5WSx6D135JcuqWWrBMa4JjuuFDrOyQ2', 'OWNER'),  -- encodedPassword2
+                                        (3, 'petrov.p1', '$2a$12$vUXOdJxV2gB3VO3WFOVv5OuZuZBC8sCcB71oo9aqlEzcCSbdnYHK6', 'USER'), -- encodedPassword3
+                                        (4, 'petrov.p2', '$2a$12$.Sxw9xNkktYdwetdmcrNpuxvPMembipPeh5pff8v6eFfqtVngMymW', 'USER'), -- encodedPassword4
+                                        (5, 'sidorov.s', '$2a$12$tBVDJNdxGz/gX4m1dfOMbeGnEx9ASBAUCTVf0roSUECuGxNWej/ri', 'USER'), -- encodedPassword5
+                                        (6, 'kuznetsova.n', '$2a$12$M6WANscAzLUmwq7cnn5VgO6DSxiVITf8N7FFe/6DCUAXKbc76kRWe', 'USER'), -- encodedPassword6
+                                        (7, 'smirnov.v', '$2a$12$woXGI0ik.Dt3vqLecLlppeHKf1UdLn5VUoRTLhMNv8iUmYHksSd7K', 'USER'), -- encodedPassword7
+                                        (8, 'alekseeva.l', '$2a$12$ZqSazra/MY1.8w8bvC1XXu6JWFu3oeombl671IFC66KZBo0TFNIDm', 'USER'), -- encodedPassword8
+                                        (9, 'fedorov.d', '$2a$12$75EO/y5zBhuuEs8DCa/RSuQZmc4dSvY9jwqFZuZoWfKij7aWLQqta', 'USER'), -- encodedPassword9
+                                        (10, 'egorova.e', '$2a$12$0wPn5oi7ZFdADgDTFC2Qn.fy5d2WI6R46SPF0kiLJ3v7sZ4r/2L/i', 'USER'), -- encodedPassword10
+                                        (11, 'nikitin.a', '$2a$12$RANZthfe/H/gDUopUuqmaudjyti94KWdSfCBhFx9h3z6P7grnwp/2', 'USER'), -- encodedPassword11
+                                        (12, 'tarasova.m', '$2a$12$4pXOcZgN37VSkq9mKqfZJO/L7AK1clPgfeCaJees4aOVNNoODejsm', 'USER'); -- encodedPassword12
 
 -- Вставляем данные сотрудников
 INSERT INTO employee (id, fio, user_id) VALUES

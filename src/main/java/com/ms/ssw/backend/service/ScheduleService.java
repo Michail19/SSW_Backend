@@ -14,9 +14,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.time.temporal.WeekFields;
+import java.util.ArrayList;
 import java.util.List;
 import java.time.format.TextStyle;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -209,15 +211,23 @@ public class ScheduleService {
 
 
 //    @Transactional
-    public SchedulePageResponseDTO getFullSchedulePageForWeek(LocalDate anyDayOfWeek) {
+    public SchedulePageResponseDTO getFullSchedulePageForWeek(LocalDate anyDayOfWeek, Long requesterUserId) {
         LocalDate monday = anyDayOfWeek.with(DayOfWeek.MONDAY);
+        List<Employee> allEmployees = employeeDetailsRepository.findAll();
 
-        List<Employee> employees = employeeDetailsRepository.findAll();
+        // Найдём пользователя, вызвавшего метод
+        Optional<Employee> requesterEmployeeOpt = getCurrentEmployee(requesterUserId);
 
-        List<EmployeeDetailsResponseDTO> employeeDTOs = employees.stream()
+        // Разделим список: сначала — тот, кто вызвал, потом остальные
+        List<Employee> sortedEmployees = new ArrayList<>();
+        requesterEmployeeOpt.ifPresent(sortedEmployees::add);
+        sortedEmployees.addAll(allEmployees.stream()
+                .filter(emp -> !emp.equals(requesterEmployeeOpt.orElse(null)))
+                .toList());
+
+        List<EmployeeDetailsResponseDTO> employeeDTOs = sortedEmployees.stream()
                 .map(employee -> {
                     WeekSchedule schedule = employee.getWeekSchedule();
-                    // Проверяем, что расписание существует и относится к запрошенной неделе
                     if (schedule == null || !isSameWeek(monday, schedule.getStartOfWeek())) {
                         return convertToDTOWithEmptySchedule(employee);
                     }
@@ -225,9 +235,11 @@ public class ScheduleService {
                 })
                 .toList();
 
-        String formattedWeek = formatWeekRange(monday);
+        return new SchedulePageResponseDTO(formatWeekRange(monday), employeeDTOs);
+    }
 
-        return new SchedulePageResponseDTO(formattedWeek, employeeDTOs);
+    public Optional<Employee> getCurrentEmployee(Long userId) {
+        return userRepository.findById(userId).map(User::getEmployee);
     }
 
     private boolean isSameWeek(LocalDate date1, LocalDate date2) {

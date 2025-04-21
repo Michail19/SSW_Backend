@@ -1,12 +1,13 @@
 package com.ms.ssw.backend.controller;
 
-import com.ms.ssw.backend.model.Employee;
+import com.ms.ssw.backend.config.CustomUserDetails;
 import com.ms.ssw.backend.model.EmployeeDTO;
 import com.ms.ssw.backend.model.SchedulePageResponseDTO;
 import com.ms.ssw.backend.model.ScheduleUpdateRequest;
 import com.ms.ssw.backend.service.ScheduleService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.DayOfWeek;
@@ -24,17 +25,19 @@ public class ScheduleController {
     }
 
     @GetMapping("/weekly")
-    public SchedulePageResponseDTO getWeeklyEmployeeDetails(@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        // Если даты нет — берём сегодня
+    public SchedulePageResponseDTO getWeeklyEmployeeDetails(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+            Authentication authentication
+    ) {
         if (date == null) {
             date = LocalDate.now();
         }
-
-        // Приводим к понедельнику той недели
         LocalDate startOfWeek = date.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
 
-        // Передаём строго понедельник
-        return scheduleService.getFullSchedulePageForWeek(startOfWeek);
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        Long userId = userDetails.getId(); // ← Получили userId из токена
+
+        return scheduleService.getFullSchedulePageForWeek(startOfWeek, userId);
     }
 
     @PostMapping("/update")
