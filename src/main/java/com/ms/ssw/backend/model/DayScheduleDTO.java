@@ -13,7 +13,7 @@ public class DayScheduleDTO {
     }
 
     public String getStart() {
-        return start;
+        return start != null ? start : "";
     }
 
     public void setStart(String start) {
@@ -21,7 +21,7 @@ public class DayScheduleDTO {
     }
 
     public String getEnd() {
-        return end;
+        return end != null ? end : "";
     }
 
     public void setEnd(String end) {
