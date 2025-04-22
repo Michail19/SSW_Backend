@@ -6,8 +6,10 @@ import com.ms.ssw.backend.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -157,6 +159,11 @@ public class ScheduleService {
 
     @Transactional
     public void addNewEmployee(EmployeeDTO employee) {
+        // Проверка на существующего пользователя с таким username
+        if (userRepository.findByUsername(employee.getUsername()).isPresent()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Пользователь с таким username уже существует");
+        }
+
         Employee toEmployee = new Employee();
         WeekSchedule weekSchedule = new WeekSchedule();
 
@@ -179,11 +186,11 @@ public class ScheduleService {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
 
         user.setUsername(employee.getUsername());
-        user.setPassword(passwordEncoder.encode(employee.getPassword())); // Хеширование!
-        user.setLevel(AccessLevel.valueOf(employee.getLevel().toUpperCase())); // Преобразуем строку в enum
+        user.setPassword(passwordEncoder.encode(employee.getPassword()));
+        user.setLevel(AccessLevel.valueOf(employee.getLevel().toUpperCase()));
 
         toEmployee.setUser(user);
-        user.setEmployee(toEmployee);  // Связь с Employee
+        user.setEmployee(toEmployee);
 
         employeeDetailsRepository.save(toEmployee);
         userRepository.save(user);
