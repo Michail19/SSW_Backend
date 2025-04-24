@@ -14,9 +14,8 @@ public class Employee {
 
     private String fio;  // Соответствует столбцу в БД
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "week_schedule_id")
-    private WeekSchedule weekSchedule;
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<WeekSchedule> weekSchedules = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
@@ -36,12 +35,12 @@ public class Employee {
 
     }
 
-    public WeekSchedule getWeekSchedule() {
-        return weekSchedule;
+    public List<WeekSchedule> getWeekSchedules() {
+        return weekSchedules;
     }
 
-    public void setWeekSchedule(WeekSchedule weekSchedule) {
-        this.weekSchedule = weekSchedule;
+    public void setWeekSchedules(List<WeekSchedule> weekSchedules) {
+        this.weekSchedules = weekSchedules;
     }
 
     public void setId(Long id) {

@@ -411,7 +411,7 @@ curl -H "Authorization: Bearer /./" http://localhost:8080/schedule/weekly
 curl -H "Authorization: Bearer /./" https://ssw-backend.onrender.com/schedule/weekly
 ```
 ```bash
-curl -H "Authorization: Bearer /./" http://localhost:8080/schedule/weekly?date=2025-04-21
+curl -H "Authorization: Bearer /./" http://localhost:8080/schedule/weekly?date=2025-04-14
 ```
 
 ```bash

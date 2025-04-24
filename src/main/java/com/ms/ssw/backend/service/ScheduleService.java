@@ -59,12 +59,18 @@ public class ScheduleService {
     }
 
     private EmployeeDetailsResponseDTO convertToDTO(Employee details) {
-
         String projects = details.getProjects().stream()
                 .map(Project::getName)
                 .collect(Collectors.joining(" "));
 
-        WeekScheduleDTO scheduleDTO = toDto(details.getWeekSchedule());
+        // Получаем расписание для текущей недели
+        LocalDate currentWeekStart = LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        WeekSchedule schedule = details.getWeekSchedules().stream()
+                .filter(ws -> ws.getStartOfWeek().equals(currentWeekStart))
+                .findFirst()
+                .orElse(null);
+
+        WeekScheduleDTO scheduleDTO = toDto(schedule);
 
         return new EmployeeDetailsResponseDTO(
                 details.getId(),
@@ -122,11 +128,16 @@ public class ScheduleService {
             WeekScheduleDTO dto = request.getSchedule();
 
             // Проверяем, если у сотрудника нет расписания, создаем новое
-            WeekSchedule schedule = employee.getWeekSchedule();
-            if (schedule == null) {
-                schedule = new WeekSchedule();
-                employee.setWeekSchedule(schedule);
-            }
+            WeekSchedule schedule = employee.getWeekSchedules().stream()
+                    .filter(ws -> ws.getStartOfWeek().equals(request.getWeekStart()))
+                    .findFirst()
+                    .orElseGet(() -> {
+                        WeekSchedule newSchedule = new WeekSchedule();
+                        newSchedule.setEmployee(employee);
+                        newSchedule.setStartOfWeek(request.getWeekStart());
+                        employee.getWeekSchedules().add(newSchedule);
+                        return newSchedule;
+                    });
 
             // Устанавливаем дату начала недели
             schedule.setStartOfWeek(request.getWeekStart());
@@ -159,14 +170,22 @@ public class ScheduleService {
 
     @Transactional
     public void addNewEmployee(EmployeeDTO employee) {
-        // Проверка на существующего пользователя с таким username
         if (userRepository.findByUsername(employee.getUsername()).isPresent()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Пользователь с таким username уже существует");
         }
 
         Employee toEmployee = new Employee();
-        WeekSchedule weekSchedule = new WeekSchedule();
+        User user = new User();
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
 
+        // Создаем расписание для текущей недели
+        WeekSchedule weekSchedule = new WeekSchedule();
+        LocalDate startOfWeek = LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        weekSchedule.setStartOfWeek(startOfWeek);
+        weekSchedule.setEmployee(toEmployee);
+
+        // Устанавливаем дни
+        weekSchedule.setMonday(convertToEntity(employee.getWeekSchedule().getMonday()));
         weekSchedule.setMonday(convertToEntity(employee.getWeekSchedule().getMonday()));
         weekSchedule.setTuesday(convertToEntity(employee.getWeekSchedule().getTuesday()));
         weekSchedule.setWednesday(convertToEntity(employee.getWeekSchedule().getWednesday()));
@@ -175,16 +194,10 @@ public class ScheduleService {
         weekSchedule.setSaturday(convertToEntity(employee.getWeekSchedule().getSaturday()));
         weekSchedule.setSunday(convertToEntity(employee.getWeekSchedule().getSunday()));
 
-        LocalDate date = LocalDate.now();
-        LocalDate startOfWeek = date.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
-        weekSchedule.setStartOfWeek(startOfWeek);
-
+        toEmployee.getWeekSchedules().add(weekSchedule);
         toEmployee.setFio(employee.getFio());
-        toEmployee.setWeekSchedule(weekSchedule);
 
-        User user = new User();
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
-
+        // Остальная логика создания пользователя
         user.setUsername(employee.getUsername());
         user.setPassword(passwordEncoder.encode(employee.getPassword()));
         user.setLevel(AccessLevel.valueOf(employee.getLevel().toUpperCase()));
@@ -193,39 +206,60 @@ public class ScheduleService {
         user.setEmployee(toEmployee);
 
         employeeDetailsRepository.save(toEmployee);
-        userRepository.save(user);
+        userRepository.save(user);;
     }
+
+//    @Transactional
+//    public void deleteEmployeeById(Long employeeId) {
+//        Employee employee = employeeDetailsRepository.getReferenceById(employeeId);
+//
+//        userRepository.findByEmployeeId(employeeId).ifPresent(user -> {
+//            userRepository.delete((User) user);
+//        });
+//
+//        employee.getWeekSchedule().setMonday(null);
+//        employee.getWeekSchedule().setTuesday(null);
+//        employee.getWeekSchedule().setWednesday(null);
+//        employee.getWeekSchedule().setThursday(null);
+//        employee.getWeekSchedule().setFriday(null);
+//        employee.getWeekSchedule().setSaturday(null);
+//        employee.getWeekSchedule().setSunday(null);
+//        employee.setWeekSchedule(null);
+//
+//        employeeDetailsRepository.deleteById(employeeId);
+//    }
 
     @Transactional
     public void deleteEmployeeById(Long employeeId) {
-        Employee employee = employeeDetailsRepository.getReferenceById(employeeId);
+        Employee employee = employeeDetailsRepository.findById(employeeId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Сотрудник не найден"));
 
-        userRepository.findByEmployeeId(employeeId).ifPresent(user -> {
-            userRepository.delete((User) user);
-        });
+        // Удалить связанные расписания
+        employee.setWeekSchedules(null);
+//        for (WeekSchedule schedule : employee.getWeekSchedules()) {
+//            schedule.setMonday(null);
+//            schedule.setTuesday(null);
+//            schedule.setWednesday(null);
+//            schedule.setThursday(null);
+//            schedule.setFriday(null);
+//            schedule.setSaturday(null);
+//            schedule.setSunday(null);
+//        }
 
-        employee.getWeekSchedule().setMonday(null);
-        employee.getWeekSchedule().setTuesday(null);
-        employee.getWeekSchedule().setWednesday(null);
-        employee.getWeekSchedule().setThursday(null);
-        employee.getWeekSchedule().setFriday(null);
-        employee.getWeekSchedule().setSaturday(null);
-        employee.getWeekSchedule().setSunday(null);
-        employee.setWeekSchedule(null);
+        // Удалить User
+        if (employee.getUser() != null) {
+            userRepository.delete(employee.getUser());
+        }
 
-        employeeDetailsRepository.deleteById(employeeId);
+        employeeDetailsRepository.delete(employee);
     }
-
 
 //    @Transactional
     public SchedulePageResponseDTO getFullSchedulePageForWeek(LocalDate anyDayOfWeek, Long requesterUserId) {
         LocalDate monday = anyDayOfWeek.with(DayOfWeek.MONDAY);
         List<Employee> allEmployees = employeeDetailsRepository.findAll();
 
-        // Найдём пользователя, вызвавшего метод
         Optional<Employee> requesterEmployeeOpt = getCurrentEmployee(requesterUserId);
-
-        // Разделим список: сначала — тот, кто вызвал, потом остальные
         List<Employee> sortedEmployees = new ArrayList<>();
         requesterEmployeeOpt.ifPresent(sortedEmployees::add);
         sortedEmployees.addAll(allEmployees.stream()
@@ -234,15 +268,43 @@ public class ScheduleService {
 
         List<EmployeeDetailsResponseDTO> employeeDTOs = sortedEmployees.stream()
                 .map(employee -> {
-                    WeekSchedule schedule = employee.getWeekSchedule();
-                    if (schedule == null || !isSameWeek(monday, schedule.getStartOfWeek())) {
-                        return convertToDTOWithEmptySchedule(employee);
-                    }
-                    return convertToDTO(employee);
+                    // Ищем или создаем новое расписание для запрошенной недели
+                    WeekSchedule schedule = employee.getWeekSchedules().stream()
+                            .filter(ws -> ws.getStartOfWeek().equals(monday))
+                            .findFirst()
+                            .orElseGet(() -> createNewWeekSchedule(employee, monday));
+
+                    return convertToDTO(employee, schedule); // Модифицированный метод, принимающий schedule
                 })
                 .toList();
 
         return new SchedulePageResponseDTO(formatWeekRange(monday), employeeDTOs);
+    }
+
+    private WeekSchedule createNewWeekSchedule(Employee employee, LocalDate monday) {
+        WeekSchedule newSchedule = new WeekSchedule();
+        newSchedule.setStartOfWeek(monday);
+        newSchedule.setEmployee(employee);
+
+        // Можно скопировать расписание из предыдущей недели или оставить пустым
+        employee.getWeekSchedules().add(newSchedule);
+        employeeDetailsRepository.save(employee); // Сохраняем изменения
+
+        return newSchedule;
+    }
+
+    // Модифицированный метод convertToDTO, принимающий schedule
+    private EmployeeDetailsResponseDTO convertToDTO(Employee employee, WeekSchedule schedule) {
+        WeekScheduleDTO scheduleDTO = toDto(schedule);
+
+        return new EmployeeDetailsResponseDTO(
+                employee.getId(),
+                employee.getFio(),
+                employee.getProjects().stream()
+                        .map(Project::getName)
+                        .collect(Collectors.joining(" ")),
+                scheduleDTO
+        );
     }
 
     public Optional<Employee> getCurrentEmployee(Long userId) {

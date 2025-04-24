@@ -13,36 +13,40 @@ public class WeekSchedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "monday_id") // Явно укажите имя столбца внешнего ключа
     private DaySchedule monday;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "tuesday_id")
     private DaySchedule tuesday;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "wednesday_id")
     private DaySchedule wednesday;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "thursday_id")
     private DaySchedule thursday;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "friday_id")
     private DaySchedule friday;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "saturday_id")
     private DaySchedule saturday;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "sunday_id")
     private DaySchedule sunday;
 
     @Column(name = "start_of_week")
     private LocalDate startOfWeek; // для понимания, к какой неделе относится
+
+    @ManyToOne
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
 
     public WeekSchedule(DaySchedule monday,
                         DaySchedule tuesday,
@@ -136,5 +140,13 @@ public class WeekSchedule {
 
     public void setStartOfWeek(LocalDate startOfWeek) {
         this.startOfWeek = startOfWeek;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 }
