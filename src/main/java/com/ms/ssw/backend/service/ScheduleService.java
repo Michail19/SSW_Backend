@@ -139,8 +139,10 @@ public class ScheduleService {
                         return newSchedule;
                     });
 
+            LocalDate startOfWeek = request.getWeekStart().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+
             // Устанавливаем дату начала недели
-            schedule.setStartOfWeek(request.getWeekStart());
+            schedule.setStartOfWeek(startOfWeek);
 
             // Обновляем дни недели
             if (dto.getMonday() != null) schedule.setMonday(convertToEntity(dto.getMonday()));
