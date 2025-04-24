@@ -69,9 +69,15 @@ public class ProjectService {
     @Transactional
     public void changeEmployee(List<EmployeeProjectsDTO> requestList) {
         for (EmployeeProjectsDTO dto : requestList) {
+            // Ищем проект или создаём новый, если не найден
             Project project = projectRepository.findByName(dto.getProject())
-                    .orElseThrow(() -> new RuntimeException("Проект не найден: " + dto.getProject()));
+                    .orElseGet(() -> {
+                        Project newProject = new Project();
+                        newProject.setName(dto.getProject());
+                        return projectRepository.save(newProject); // Сохраняем новый проект
+                    });
 
+            // Далее логика добавления/удаления сотрудников
             for (EmployeeLessDTO fio : dto.getFio()) {
                 Employee employee = employeeRepository.findById(fio.getId())
                         .orElseThrow(() -> new RuntimeException("Сотрудник не найден: " + fio.getFio()));
@@ -87,7 +93,7 @@ public class ProjectService {
                 }
             }
 
-            projectRepository.save(project);
+            projectRepository.save(project); // Сохраняем изменения
         }
     }
 }
