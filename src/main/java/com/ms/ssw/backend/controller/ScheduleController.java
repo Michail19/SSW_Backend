@@ -47,9 +47,9 @@ public class ScheduleController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addEmployee(@RequestBody EmployeeDTO employee) {
-        scheduleService.addNewEmployee(employee);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Long> addEmployee(@RequestBody EmployeeDTO employee) {
+        Long id = scheduleService.addNewEmployee(employee);
+        return ResponseEntity.ok(id);
     }
 
     @DeleteMapping("/delete/{employeeId}")

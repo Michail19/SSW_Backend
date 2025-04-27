@@ -171,7 +171,7 @@ public class ScheduleService {
     }
 
     @Transactional
-    public void addNewEmployee(EmployeeDTO employee) {
+    public Long addNewEmployee(EmployeeDTO employee) {
         if (userRepository.findByUsername(employee.getUsername()).isPresent()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Пользователь с таким username уже существует");
         }
@@ -208,7 +208,9 @@ public class ScheduleService {
         user.setEmployee(toEmployee);
 
         employeeDetailsRepository.save(toEmployee);
-        userRepository.save(user);;
+        userRepository.save(user);
+
+        return toEmployee.getId(); // <<< Возвращаем сгенерированный id
     }
 
 //    @Transactional
