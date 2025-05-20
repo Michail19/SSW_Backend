@@ -258,7 +258,7 @@ public class ScheduleService {
         employeeDetailsRepository.delete(employee);
     }
 
-//    @Transactional
+    @Transactional
     public SchedulePageResponseDTO getFullSchedulePageForWeek(LocalDate anyDayOfWeek, Long requesterUserId) {
         LocalDate monday = anyDayOfWeek.with(DayOfWeek.MONDAY);
         List<Employee> allEmployees = employeeDetailsRepository.findAll();

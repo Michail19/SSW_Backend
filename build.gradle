@@ -21,7 +21,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.postgresql:postgresql'  // Драйвер PostgreSQL
+	implementation 'org.postgresql:postgresql'  // Драйвер PostgresSQL
 	implementation 'org.springframework.boot:spring-boot-starter-web'  // Для REST API
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -44,7 +44,7 @@ dependencies {
 	implementation 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok' // Для работы с JSON через Jackson
 
-//	implementation 'org.flywaydb:flyway-core'
+	implementation 'io.github.cdimascio:dotenv-java:3.0.0' // Для env
 }
 
 tasks.named('test') {

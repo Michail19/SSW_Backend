@@ -6,7 +6,7 @@ TRUNCATE TABLE week_schedule CASCADE;
 TRUNCATE TABLE current_week CASCADE;
 
 -- Вставляем данные о текущей неделе
-INSERT INTO current_week (week_range) VALUES ('14-20 april 2025');
+INSERT INTO current_week (week_range) VALUES ('02-08 june 2025');
 
 -- Вставляем пользователей
 INSERT INTO users (id, username, password, level) VALUES
@@ -163,7 +163,7 @@ INSERT INTO week_schedule (
 ) VALUES (
              1, 2, 3, 4, 5, 6, 7,
              1,
-             DATE '2025-04-21'  -- пример понедельника текущей недели
+             DATE '2025-06-02'  -- пример понедельника текущей недели
          ) RETURNING id;
 
 -- Сотрудник 2
@@ -181,7 +181,7 @@ INSERT INTO day_schedule ("start", "end") VALUES ('10:00', '14:00') RETURNING id
 INSERT INTO week_schedule (
     monday_id, tuesday_id, wednesday_id, thursday_id,
     friday_id, saturday_id, sunday_id, employee_id, start_of_week
-) VALUES (8, 9, 10, 11, 12, 13, 14, 2, DATE '2025-04-21');
+) VALUES (8, 9, 10, 11, 12, 13, 14, 2, DATE '2025-06-02');
 
 -- Сотрудник 3-8 (одинаковое расписание)
 -- Понедельник-пятница: 09:00–18:00
@@ -198,32 +198,32 @@ INSERT INTO day_schedule ("start", "end") VALUES ('10:00', '15:00') RETURNING id
 INSERT INTO week_schedule (
     monday_id, tuesday_id, wednesday_id, thursday_id,
     friday_id, saturday_id, sunday_id, employee_id, start_of_week
-) VALUES (15, 16, 17, 18, 19, 20, 21, 3, DATE '2025-04-21');
+) VALUES (15, 16, 17, 18, 19, 20, 21, 3, DATE '2025-06-02');
 -- Сотрудник 4
 INSERT INTO week_schedule (
     monday_id, tuesday_id, wednesday_id, thursday_id,
     friday_id, saturday_id, sunday_id, employee_id, start_of_week
-) VALUES (15, 16, 17, 18, 19, 20, 21, 4, DATE '2025-04-21');
+) VALUES (15, 16, 17, 18, 19, 20, 21, 4, DATE '2025-06-02');
 -- Сотрудник 5
 INSERT INTO week_schedule (
     monday_id, tuesday_id, wednesday_id, thursday_id,
     friday_id, saturday_id, sunday_id, employee_id, start_of_week
-) VALUES (15, 16, 17, 18, 19, 20, 21, 5, DATE '2025-04-21');
+) VALUES (15, 16, 17, 18, 19, 20, 21, 5, DATE '2025-06-02');
 -- Сотрудник 6
 INSERT INTO week_schedule (
     monday_id, tuesday_id, wednesday_id, thursday_id,
     friday_id, saturday_id, sunday_id, employee_id, start_of_week
-) VALUES (15, 16, 17, 18, 19, 20, 21, 6, DATE '2025-04-21');
+) VALUES (15, 16, 17, 18, 19, 20, 21, 6, DATE '2025-06-02');
 -- Сотрудник 7
 INSERT INTO week_schedule (
     monday_id, tuesday_id, wednesday_id, thursday_id,
     friday_id, saturday_id, sunday_id, employee_id, start_of_week
-) VALUES (15, 16, 17, 18, 19, 20, 21, 7, DATE '2025-04-21');
+) VALUES (15, 16, 17, 18, 19, 20, 21, 7, DATE '2025-06-02');
 -- Сотрудник 8
 INSERT INTO week_schedule (
     monday_id, tuesday_id, wednesday_id, thursday_id,
     friday_id, saturday_id, sunday_id, employee_id, start_of_week
-) VALUES (15, 16, 17, 18, 19, 20, 21, 8, DATE '2025-04-21');
+) VALUES (15, 16, 17, 18, 19, 20, 21, 8, DATE '2025-06-02');
 
 -- Сотрудник 9
 -- Понедельник-среда, пятница: 09:00–18:00
@@ -240,7 +240,7 @@ INSERT INTO day_schedule ("start", "end") VALUES ('10:00', '15:00') RETURNING id
 INSERT INTO week_schedule (
     monday_id, tuesday_id, wednesday_id, thursday_id,
     friday_id, saturday_id, sunday_id, employee_id, start_of_week
-) VALUES (22, 23, 24, 25, 26, 27, 28, 9, DATE '2025-04-21');
+) VALUES (22, 23, 24, 25, 26, 27, 28, 9, DATE '2025-06-02');
 
 -- Сотрудник 10
 -- Понедельник-вторник: 09:00–18:00
@@ -260,7 +260,7 @@ INSERT INTO day_schedule ("start", "end") VALUES ('10:00', '15:00') RETURNING id
 INSERT INTO week_schedule (
     monday_id, tuesday_id, wednesday_id, thursday_id,
     friday_id, saturday_id, sunday_id, employee_id, start_of_week
-) VALUES (29, 30, 31, 32, 33, 34, 35, 10, DATE '2025-04-21');
+) VALUES (29, 30, 31, 32, 33, 34, 35, 10, DATE '2025-06-02');
 
 -- Сотрудник 11
 -- Понедельник: 09:00–18:00
@@ -280,7 +280,7 @@ INSERT INTO day_schedule ("start", "end") VALUES ('10:00', '15:00') RETURNING id
 INSERT INTO week_schedule (
     monday_id, tuesday_id, wednesday_id, thursday_id,
     friday_id, saturday_id, sunday_id, employee_id, start_of_week
-) VALUES (36, 37, 38, 39, 40, 41, 42, 11, DATE '2025-04-21');
+) VALUES (36, 37, 38, 39, 40, 41, 42, 11, DATE '2025-06-02');
 
 -- Сотрудник 12
 -- Понедельник-пятница: 09:00–18:00
@@ -297,7 +297,7 @@ INSERT INTO day_schedule ("start", "end") VALUES ('10:00', '13:00') RETURNING id
 INSERT INTO week_schedule (
     monday_id, tuesday_id, wednesday_id, thursday_id,
     friday_id, saturday_id, sunday_id, employee_id, start_of_week
-) VALUES (43, 44, 45, 46, 47, 48, 49, 12, DATE '2025-04-21');
+) VALUES (43, 44, 45, 46, 47, 48, 49, 12, DATE '2025-06-02');
 
 -- SELECT setval('week_schedule_id_seq', COALESCE((SELECT MAX(id) FROM week_schedule), 1), true);
 -- SELECT setval('day_schedule_id_seq', COALESCE((SELECT MAX(id) FROM day_schedule), 1), true;

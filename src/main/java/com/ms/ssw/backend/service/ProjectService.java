@@ -23,6 +23,7 @@ public class ProjectService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    @Transactional
     public ProjectDTO getProjectById(Long projectId) {
         // Получаем проект из репозитория
         Project project = projectRepository.findById(projectId).orElseThrow(() -> new RuntimeException("Проект не найден"));
@@ -36,6 +37,7 @@ public class ProjectService {
         return new ProjectDTO(project.getName(), employeeDTOs);
     }
 
+    @Transactional
     public ProjectPageResponseDTO getFullProjects() {
         String currentWeek = formatCurrentWeek(LocalDate.now());
         List<Project> project = projectRepository.findAll();
