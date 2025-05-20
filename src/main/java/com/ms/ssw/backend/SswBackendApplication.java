@@ -8,14 +8,23 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SswBackendApplication {
 
 	public static void main(String[] args) {
-		Dotenv dotenv = Dotenv.load();
+		// Если не установлено переменное окружение "RENDER", значит мы в локальной среде
+		if (System.getenv("RENDER") == null) {
+			// Локальная среда: загружаем переменные из .env
+			Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
 
-		System.setProperty("DB_URL", dotenv.get("DB_URL"));
-		System.setProperty("DB_USERNAME", dotenv.get("DB_USERNAME"));
-		System.setProperty("DB_PASSWORD", dotenv.get("DB_PASSWORD"));
-		System.setProperty("SPRING_PROFILES_ACTIVE", dotenv.get("SPRING_PROFILES_ACTIVE", "prod"));
+			setSystemPropertyIfNotNull("DB_URL", dotenv.get("DB_URL"));
+			setSystemPropertyIfNotNull("DB_USERNAME", dotenv.get("DB_USERNAME"));
+			setSystemPropertyIfNotNull("DB_PASSWORD", dotenv.get("DB_PASSWORD"));
+			setSystemPropertyIfNotNull("SPRING_PROFILES_ACTIVE", dotenv.get("SPRING_PROFILES_ACTIVE", "prod"));
+		}
 
 		SpringApplication.run(SswBackendApplication.class, args);
 	}
 
+	private static void setSystemPropertyIfNotNull(String key, String value) {
+		if (value != null) {
+			System.setProperty(key, value);
+		}
+	}
 }

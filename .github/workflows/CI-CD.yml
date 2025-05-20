@@ -51,6 +51,7 @@ jobs:
         SPRING_DATASOURCE_USERNAME: testuser
         SPRING_DATASOURCE_PASSWORD: testpass
         SPRING_JPA_HIBERNATE_DDL_AUTO: update
+        SPRING_PROFILES_ACTIVE: init
       run: ./gradlew test
 
   deploy:
